@@ -6,6 +6,8 @@ A gamified HTML/CSS editor and course platform for a young student (course lesso
 
 > Open `index.html` in a browser, or use the live demo above. No install, build or server needed.
 
+![Camping Quest Editor: Blocks editor with a live preview and quest panel](docs/images/screenshot.png)
+
 ## Features
 
 - Student view: Type and Blocks editors, quests, points, collection and stickers
