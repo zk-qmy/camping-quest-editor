@@ -67,7 +67,8 @@ The app's **Hall** button also shows these projects inside the app.
 | Command | What it does |
 |---|---|
 | `npm run build` | Regenerate `index.html` from `src/` |
-| `npm run check` | Check that `index.html` is up to date with `src/` and that `hall-projects/` matches the app |
+| `npm run check` | Check that `index.html` is up to date with `src/`, that `hall-projects/` matches the app, and that no PIN or secret is committed |
+| `npm run setup` | Turn on the pre-commit hook that blocks commits containing a PIN or secret (run once after cloning) |
 | `npm run split` | Rebuild `src/` from an `index.html` exported from the app's Teacher view |
 
 There is no `npm install` step; the project has no dependencies. The Hall projects need no build at all.

@@ -8,7 +8,7 @@ The app ships as one self-contained `index.html` (about 300 KB), so it works by 
 src/
 ├── template.html          # page shell: <head>, markup, {{STYLES}} {{DATA}} {{SCRIPT}} slots
 ├── styles/                # CSS, one file per section, concatenated in filename order
-├── data/course.json       # lessons, quests, shop items, PIN, `rev` counter
+├── data/course.json       # lessons, quests, shop items, PIN (always empty in the repo), `rev` counter
 └── js/                    # app code, one file per section, concatenated in filename order
     ├── 02-data.js              # load/save DATA, progress
     ├── 04-break-final-code-into-quests.js
@@ -34,6 +34,7 @@ The JS files share one scope: the build wraps them all in a single IIFE, so they
 | `npm run build` | Regenerate `index.html` from `src/` |
 | `npm run check` | Fail if `index.html` is out of date with `src/`, or if `hall-projects/` differs from the projects embedded in the app (runs in CI) |
 | `npm run split` | Overwrite `src/` from `index.html` |
+| `npm run setup` | One-time: set `core.hooksPath` to `.githooks` so the pre-commit hook runs `check-secrets` |
 
 ### Two ways content changes
 

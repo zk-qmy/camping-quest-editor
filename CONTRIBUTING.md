@@ -19,3 +19,9 @@ See the [README](README.md#repository-layout) and [docs/architecture.md](docs/ar
 - Hall projects are deliberately simple beginner code: no frameworks, no JavaScript. Each project is self-contained in its own folder (`index.html`, `style.css`, extra pages).
 - Change lessons through the app's Teacher view, then export and run `npm run split` (see [docs/architecture.md](docs/architecture.md)). Don't hand-edit `src/data/course.json`.
 - Don't commit student progress backups or personal data.
+
+## Secrets and the Teacher PIN
+
+- Run `npm run setup` once after cloning. It enables a pre-commit hook that blocks commits containing a PIN or secret-like value.
+- The app stores the PIN as a salted hash in `index.html` when you use **Save to page**. Never commit a page with a PIN set. `npm run check` (and CI) fail if `"pin"` is not empty.
+- Don't put personal paths or emails in code or docs.
