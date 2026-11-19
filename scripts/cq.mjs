@@ -156,6 +156,29 @@ function checkHall() {
   console.log('hall-projects/ matches the app.');
 }
 
+/** Fail if a teacher PIN (plain or hashed) or other secret-looking value is about to be committed. */
+function checkSecrets() {
+  const problems = [];
+  const pinIn = (text, where) => {
+    const m = text.match(/"pin"\s*:\s*"([^"]*)"/);
+    if (m && m[1] !== '') problems.push(`${where} has a non-empty "pin". Clear it before committing.`);
+  };
+  pinIn(read(DATA), 'src/data/course.json');
+  const html = read(OUT);
+  const d = extract(html, REGIONS.DATA).text;
+  pinIn(d, 'index.html (embedded data)');
+  const patterns = [/ghp_[A-Za-z0-9]{20,}/, /sk-[A-Za-z0-9]{20,}/, /AKIA[0-9A-Z]{12,}/, /BEGIN [A-Z ]*PRIVATE KEY/, /file:\/\/\/[a-z]:\//i];
+  for (const f of ['index.html', 'README.md', 'CONTRIBUTING.md', 'docs/architecture.md']) {
+    const t = read(join(ROOT, f));
+    for (const re of patterns) if (re.test(t)) problems.push(`${f} matches ${re}`);
+  }
+  if (problems.length) {
+    console.error(problems.join('\n'));
+    process.exit(1);
+  }
+  console.log('No PIN or secrets in committed files.');
+}
+
 const cmd = process.argv[2];
 if (cmd === 'build') {
   write(OUT, build());
@@ -168,9 +191,11 @@ if (cmd === 'build') {
     process.exit(1);
   }
   console.log('index.html is in sync with src/.');
+} else if (cmd === 'check-secrets') {
+  checkSecrets();
 } else if (cmd === 'check-hall') {
   checkHall();
 } else {
-  console.error('Usage: node scripts/cq.mjs <build|split|check|check-hall>');
+  console.error('Usage: node scripts/cq.mjs <build|split|check|check-hall|check-secrets>');
   process.exit(2);
 }

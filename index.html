@@ -1676,7 +1676,7 @@ var GUIDE_TEACHER=
  '<tr><td>Save to page</td><td>New or changed lessons reach the student <b>only after 💾 Save to page</b>. Until then they stay on your computer (the top of this view says “Not saved to the page yet”), and closing this view reminds you. Only the page owner can save. The student may need to reload the page.</td></tr>'+
  '<tr><td>Student progress</td><td>Saved automatically in the student’s browser (same computer + same browser to continue). Lost in private/incognito windows or if browser data is cleared. Reports and “Prizes to give” are on his computer too.</td></tr>'+
  '<tr><td>💾 Backup code</td><td>The student’s <b>💾 Backup</b> button makes a text code with all his progress (quests, points, items, code, blocks, reports). Keep a copy after each lesson; <b>Load my progress</b> restores it on any computer. It also lets you check his prizes and reports on your own computer.</td></tr>'+
- '<tr><td>Teacher PIN</td><td>Keeps the student out of this view. It is stored in the page, so it stops a child, not someone who reads page code.</td></tr>'+
+ '<tr><td>Teacher PIN</td><td>Keeps the student out of this view. It is saved as a salted hash, not plain text, and 5 wrong tries lock it for 30 seconds. It still only stops a child, not a determined person with the page file.</td></tr>'+
  '<tr><td>Lesson backups</td><td><b>Export</b> copies your lessons and items as text; <b>Import</b> brings them back. (This is different from the student’s 💾 Backup, which holds <i>his</i> progress.)</td></tr></table>'+
  '<h3>The Hall</h3><table><tr><th>Part</th><th>How it works</th></tr>'+
  '<tr><td>Projects</td><td>6 built-in projects, one per module (Modules 3–8, lessons 9–32), following each module’s project lesson, 99 Nights themed: <b>Night Camp</b> (landing page, inline styles), <b>Forest News</b> (style.css, nav), <b>Ranger Guide</b> (2 pages), <b>Night Gear Store</b> (flexbox), <b>Night Gear Store 2.0</b> (starts from the store: fixed block, badge, ::before/::after, :hover), <b>Night Ranger Portfolio</b> (4 pages, gradients, transforms, video). Edit them in <b>🏛 Hall</b>. Use <b>+ New project</b> to add your own and <b>hide</b> to keep one out of sight.</td></tr>'+
@@ -1747,12 +1747,19 @@ function repAnswer(r,ok){
 }
 
 /* ============ TEACHER ============ */
+/* PIN is stored only as a salted PBKDF2 hash, never as plain text. */
+var PINIT=200000,pinFails=0,pinLock=0;
+function b64(u){var s='';u=new Uint8Array(u);for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
+function unb64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+function pinDerive(pin,salt,it){return crypto.subtle.importKey('raw',new TextEncoder().encode(pin),'PBKDF2',false,['deriveBits']).then(function(k){return crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:salt,iterations:it},k,256);});}
+function pinHash(pin){var salt=crypto.getRandomValues(new Uint8Array(16));return pinDerive(pin,salt,PINIT).then(function(bits){return 'pbkdf2$'+PINIT+'$'+b64(salt)+'$'+b64(bits);});}
+function pinCheck(pin){var s=DATA.pin;if(s.indexOf('pbkdf2$')!==0)return Promise.resolve(pin===s);var p=s.split('$'),it=Math.min(+p[1]||PINIT,1000000);return pinDerive(pin,unb64(p[2]),it).then(function(bits){var a=b64(bits),b=p[3]||'',d=a.length^b.length;for(var i=0;i<a.length;i++)d|=a.charCodeAt(i)^b.charCodeAt(i);return d===0;});}
 var tv={tab:'lessons',sel:0},artifactApi=null,sampleApi=null;
 try{if(window.claude&&window.claude.use){window.claude.use('artifact').then(function(a){artifactApi=a;}).catch(function(){});window.claude.use('sample').then(function(s){sampleApi=s;if(!$('teacherView').hidden)renderTeacher();}).catch(function(){});}}catch(e){}
 $('teacherBtn').addEventListener('click',function(){setTimeout(placeHandles,50);});
 $('teacherBtn').onclick=function(){
   if(DATA.pin){modal('<h2>Teacher only</h2><input type="password" id="pinIn" placeholder="PIN"><div class="mrow"><button class="sbtn" data-close>Cancel</button><button class="pbtn" id="pinGo">Open</button></div>');
-    var go=function(){if($('pinIn').value===DATA.pin){closeModal();openT();}else toast('Wrong PIN');};$('pinGo').onclick=go;$('pinIn').onkeydown=function(e){if(e.key==='Enter')go();};$('pinIn').focus();}
+    var go=function(){if(Date.now()<pinLock){toast('Too many tries. Wait a little.');return;}var v=$('pinIn').value;var done=function(ok){if(ok){pinFails=0;closeModal();openT();if(DATA.pin.indexOf('pbkdf2$')!==0&&v){pinHash(v).then(function(h){DATA.pin=h;touch();}).catch(function(){});}}else{if(++pinFails>=5){pinFails=0;pinLock=Date.now()+30000;}toast('Wrong PIN');}};try{pinCheck(v).then(done,function(){toast('PIN check is not available in this browser');});}catch(e){toast('PIN check is not available in this browser');}};$('pinGo').onclick=go;$('pinIn').onkeydown=function(e){if(e.key==='Enter')go();};$('pinIn').focus();}
   else openT();
 };
 function openT(){if(pendingReports().length)tv.tab='reports';tv.sel=Math.min(P.lesson,Math.max(0,DATA.lessons.length-1));$('teacherView').hidden=false;renderTeacher();}
@@ -1821,10 +1828,12 @@ function tSettings(){
   return '<div class="card"><h3>Course</h3><label>Name shown at the top</label>'+inp('title')+'</div>'+
    '<div class="card"><h3>Default quest limit</h3><p class="help">Used for lessons that don’t set their own “Max quests”. Leave empty for no limit.</p>'+inp('maxQuests','no limit','number')+'</div>'+
    '<div class="card"><h3>Points per quest</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div><label>Easy</label>'+inp('points.easy','','number')+'</div><div><label>Medium</label>'+inp('points.medium','','number')+'</div><div><label>Hard</label>'+inp('points.hard','','number')+'</div></div></div>'+
-   '<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel.</p>'+inp('pin','no PIN','password')+'</div>'+
+   '<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>'+
    '<div class="card"><h3>This device</h3><p class="help">He has ⭐ '+P.points+' now (earned '+P.earned+' in total).</p><button class="sbtn" data-act="give" data-x="5">+5 ⭐ for effort</button> <button class="sbtn" data-act="give" data-x="10">+10 ⭐</button> <button class="sbtn" data-act="give" data-x="-5">−5 ⭐</button> <button class="sbtn" data-act="unlock">Unlock all quests in this lesson</button> <button class="sbtn" style="color:#ff9a9a" data-act="reset">Reset his progress</button></div>';
 }
 var TV=$('teacherView');
+TV.addEventListener('change',function(e){var t=e.target;if(t.id==='pinSet'&&t.value){var v=t.value;try{pinHash(v).then(function(h){DATA.pin=h;touch();renderTeacher();toast('PIN saved');},function(){toast('Cannot set a PIN in this browser');});}catch(x){toast('Cannot set a PIN in this browser');}}});
+TV.addEventListener('click',function(e){if(e.target.id==='pinClear'){DATA.pin='';touch();renderTeacher();toast('PIN removed');}});
 TV.addEventListener('input',function(e){var t=e.target;if(!t.dataset.b)return;setPath(t.dataset.b,t.type==='number'?(+t.value||0):t.value);touch();if(t.hasAttribute('data-rr'))renderTeacher();});
 TV.addEventListener('change',function(e){var t=e.target;
   var mb=t.dataset&&t.dataset.b||'';

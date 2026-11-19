@@ -1,0 +1,2 @@
+#!/bin/sh
+node scripts/cq.mjs check-secrets || { echo "Commit blocked: remove the PIN/secret first."; exit 1; }
