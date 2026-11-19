@@ -54,6 +54,11 @@ function startHall(pid,custom){var pr=hallProj(pid);if(!pr)return;var h=hallLess
   toast(custom?'✏️ Build it your way! Your own words, colours and pictures.':'🎯 Build '+pr.title+' again!');}
 function hallProg(id){var h=P.hall[id],p=P.lessons[id];if(!h)return null;var d=0;(h.quests||[]).forEach(function(q){if(p&&p.done[q.id])d++;});return {d:d,n:(h.quests||[]).length};}
 function thumb(pr){return '<div class="hthumb"><iframe tabindex="-1" aria-hidden="true" sandbox="" srcdoc="'+esc(processCode(buildPage(pr.finalCode,pr.finalCss)))+'"></iframe></div>';}
+var hcCache={};
+function hallCount(pr){var k=hallKey(pr)+'|'+pr.max;if(hcCache[pr.id]&&hcCache[pr.id].k===k)return hcCache[pr.id].v;var v=null;
+  try{var bp=pr.basedOn&&pr.basedOn!==pr.id?hallProj(pr.basedOn):null,qs=limitQuests(lessonQuests({finalCode:pr.finalCode,finalCss:pr.finalCss||'',pages:JSON.parse(JSON.stringify(pr.pages||[]))},bp),+pr.max||10,'merge'),t=0;
+    qs.forEach(function(q){t+=q.tasks.length;});v={q:qs.length,t:t};}catch(e){}
+  hcCache[pr.id]={k:k,v:v};return v;}
 function renderHall(){
   var H=(DATA.hall||[]).filter(function(x){return !x.hidden;}).slice().sort(function(a,b){return (+a.phase||0)-(+b.phase||0);});
   var h='<div class="tv"><div class="tvbar"><h2>🏛 The Hall</h2><span class="help" style="margin-right:auto">Demo projects. Open one to look, then build it again or make your own version!</span><button class="pbtn" id="hallClose">▶ Back</button></div>';
@@ -62,7 +67,7 @@ function renderHall(){
   H.forEach(function(pr){
     var a=hallProg('hp-'+pr.id),b=hallProg('hc-'+pr.id);
     function st(x){return x?(x.d>=x.n?' ✓':' '+x.d+'/'+x.n):'';}
-    h+='<div class="hcard">'+thumb(pr)+'<div class="hbody"><span class="hph">Phase '+esc(pr.phase)+(pr.lessons?' · Lesson'+(/[–\-,]/.test(pr.lessons)?'s ':' ')+esc(pr.lessons):'')+(pr.topic?' · '+esc(pr.topic):'')+'</span><b>'+esc(pr.title)+'</b><p>'+esc(pr.desc||'')+(pr.basedOn&&hallProj(pr.basedOn)?' <i>Starts from '+esc(hallProj(pr.basedOn).title)+'.</i>':'')+'</p><div class="hbtns">'+
+    h+='<div class="hcard">'+thumb(pr)+'<div class="hbody"><span class="hph">Phase '+esc(pr.phase)+(pr.lessons?' · Lesson'+(/[–\-,]/.test(pr.lessons)?'s ':' ')+esc(pr.lessons):'')+(pr.topic?' · '+esc(pr.topic):'')+'</span><b>'+esc(pr.title)+'</b><p>'+esc(pr.desc||'')+(pr.basedOn&&hallProj(pr.basedOn)?' <i>Starts from '+esc(hallProj(pr.basedOn).title)+'.</i>':'')+'</p>'+(function(){var c=hallCount(pr);return c?'<div class="hcount">🎯 '+c.q+' quests · '+c.t+' tasks</div>':'';})()+'<div class="hbtns">'+
       '<button class="sbtn" data-hopen="'+esc(pr.id)+'">👀 Open</button>'+
       '<button class="pbtn" data-hprac="'+esc(pr.id)+'">🎯 '+(a?(a.d>=a.n?'Done':'Continue'):'Practice')+'<small>'+st(a)+'</small></button>'+
       '<button class="bigbtn" data-hcust="'+esc(pr.id)+'">✏️ '+(b?(b.d>=b.n?'Done':'Continue'):'Make it mine')+'<small>'+st(b)+'</small></button></div>'+
