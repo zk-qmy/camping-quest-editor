@@ -2,7 +2,9 @@
 
 A gamified HTML/CSS editor and course platform for a young student (course lessons 9–32). In the app it appears as *99 Nights Code Quest*, themed on the Roblox game *99 Nights in the Forest*.
 
-> Open `index.html` in a browser, or use the GitHub Pages deployment. No install, build or server needed.
+**Live demo: https://zk-qmy.github.io/camping-quest-editor/**
+
+> Open `index.html` in a browser, or use the live demo above. No install, build or server needed.
 
 ## Features
 
