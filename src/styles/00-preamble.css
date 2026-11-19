@@ -279,3 +279,4 @@ body.resizing,body.resizing *{user-select:none!important}
 .itm .use{background:var(--easy);border:none;color:#062033;font-weight:900;border-radius:9px;padding:6px 10px;font-size:13px;width:100%}
 .itm .use.on{background:none;border:1px solid var(--easy);color:var(--easy)}
 .hcount{margin:6px 0 2px;font-size:14px;font-weight:800;color:var(--fire)}
+@media (max-width:1050px){header{flex-wrap:wrap;gap:8px 12px}}
