@@ -1,0 +1,17 @@
+body { background-color: #10180f; color: wheat; font-family: Verdana, sans-serif; margin: 0; }
+header { display: flex; justify-content: space-between; background-color: darkgreen; padding: 10px; }
+nav a { color: white; margin: 0 15px; text-decoration: none; }
+h1 { text-align: center; color: orange; }
+.intro { font-size: 20px; border-left: 5px solid orange; }
+table { border: 2px solid darkgreen; }
+footer { background-color: darkgreen; padding: 10px; }
+ul { list-style: url("star.png"); }
+.tip { border: 2px dashed sienna; padding: 10px; }
+ol { border: 2px dotted gray; }
+.gear { display: flex; justify-content: space-around; }
+.card { position: relative; width: 150px; padding: 15px; background-color: #1b2e1f; text-align: center; }
+.price { color: orange; }
+nav a:hover { color: orange; }
+.social { position: fixed; top: 150px; right: 0; background-color: darkgreen; }
+.badge { position: absolute; top: -10px; right: -10px; }
+.card:hover { background-color: #2c4a35; }

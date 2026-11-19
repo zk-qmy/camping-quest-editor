@@ -44,13 +44,13 @@ Each project is a normal website. Open the `index.html` inside its folder:
 | Project | Open this file |
 |---|---|
 | Night Camp | `hall-projects/m3-night-camp/index.html` |
-| Forest News | `hall-projects/m4-forest-news/index.html` |
-| Ranger Guide | `hall-projects/m5-ranger-guide/index.html` |
-| Night Gear Store | `hall-projects/m6-night-gear-store/index.html` |
-| Night Gear Store 2.0 | `hall-projects/m7-night-gear-store-2/index.html` |
-| Night Ranger Portfolio | `hall-projects/m8-ranger-portfolio/index.html` |
+| Night Camp: style.css | `hall-projects/m4-night-camp-style/index.html` |
+| Night Camp: Ranger Guide | `hall-projects/m5-night-camp-guide/index.html` |
+| Night Camp: Gear Shop | `hall-projects/m6-night-camp-gear/index.html` |
+| Night Camp: Gear Shop 2.0 | `hall-projects/m7-night-camp-gear-2/index.html` |
+| Night Camp: Final site | `hall-projects/m8-night-camp-final/index.html` |
 
-The projects link to each other (for example Home, About me), so click through the menu. Pictures such as `campfire.png` are not included, so they show as broken images.
+The pages link to each other (for example Home, Survival tips), so click through the menu. Pictures such as `campfire.png` are not included, so they show as broken images.
 
 The app's **Hall** button also shows these projects inside the app.
 
@@ -87,11 +87,11 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 ├── package.json
 ├── hall-projects/        # Hall demo projects, one folder per module
 │   ├── m3-night-camp/
-│   ├── m4-forest-news/
-│   ├── m5-ranger-guide/
-│   ├── m6-night-gear-store/
-│   ├── m7-night-gear-store-2/
-│   └── m8-ranger-portfolio/
+│   ├── m4-night-camp-style/
+│   ├── m5-night-camp-guide/
+│   ├── m6-night-camp-gear/
+│   ├── m7-night-camp-gear-2/
+│   └── m8-night-camp-final/
 ├── lessons/              # final code for individual lessons
 ├── docs/                 # architecture notes
 └── .github/              # CI, Pages deploy, issue and PR templates
@@ -102,13 +102,13 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 | Phase | Lessons | Project | Folder |
 |---|---|---|---|
 | 1 · Module 3 | 9–12 | Night Camp | [`m3-night-camp`](hall-projects/m3-night-camp) |
-| 2 · Module 4 | 13–16 | Forest News | [`m4-forest-news`](hall-projects/m4-forest-news) |
-| 3 · Module 5 | 17–20 | Ranger Guide (2 pages) | [`m5-ranger-guide`](hall-projects/m5-ranger-guide) |
-| 4 · Module 6 | 21–24 | Night Gear Store | [`m6-night-gear-store`](hall-projects/m6-night-gear-store) |
-| 5 · Module 7 | 25–28 | Night Gear Store 2.0 | [`m7-night-gear-store-2`](hall-projects/m7-night-gear-store-2) |
-| 6 · Module 8 | 29–32 | Night Ranger Portfolio (4 pages) | [`m8-ranger-portfolio`](hall-projects/m8-ranger-portfolio) |
+| 2 · Module 4 | 13–16 | Night Camp: style.css | [`m4-night-camp-style`](hall-projects/m4-night-camp-style) |
+| 3 · Module 5 | 17–20 | Night Camp: Ranger Guide (2 pages) | [`m5-night-camp-guide`](hall-projects/m5-night-camp-guide) |
+| 4 · Module 6 | 21–24 | Night Camp: Gear Shop | [`m6-night-camp-gear`](hall-projects/m6-night-camp-gear) |
+| 5 · Module 7 | 25–28 | Night Camp: Gear Shop 2.0 | [`m7-night-camp-gear-2`](hall-projects/m7-night-camp-gear-2) |
+| 6 · Module 8 | 29–32 | Night Camp: Final site (3 pages) | [`m8-night-camp-final`](hall-projects/m8-night-camp-final) |
 
-Each folder is a standalone site: open its `index.html`. Images the pages reference (e.g. `campfire.png`) are not included.
+Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks. Each folder is a standalone site: open its `index.html`. Images the pages reference (e.g. `campfire.png`) are not included.
 
 ## Updating content
 

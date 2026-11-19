@@ -50,11 +50,11 @@ One folder per module. Each is a normal static website (`index.html`, `style.css
 | Folder | Module | Lessons |
 |---|---|---|
 | `m3-night-camp` | 3 | 9–12 |
-| `m4-forest-news` | 4 | 13–16 |
-| `m5-ranger-guide` | 5 | 17–20 |
-| `m6-night-gear-store` | 6 | 21–24 |
-| `m7-night-gear-store-2` | 7 | 25–28 |
-| `m8-ranger-portfolio` | 8 | 29–32 |
+| `m4-night-camp-style` | 4 | 13–16 |
+| `m5-night-camp-guide` | 5 | 17–20 |
+| `m6-night-camp-gear` | 6 | 21–24 |
+| `m7-night-camp-gear-2` | 7 | 25–28 |
+| `m8-night-camp-final` | 8 | 29–32 |
 
 ## `lessons/`
 

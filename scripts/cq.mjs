@@ -110,11 +110,11 @@ function split() {
 // Folder under hall-projects/ for each project id in HALL_DEFAULT.
 const HALL_DIRS = {
   m3: 'm3-night-camp',
-  m4: 'm4-forest-news',
-  m5: 'm5-ranger-guide',
-  m6: 'm6-night-gear-store',
-  m7: 'm7-night-gear-store-2',
-  m8: 'm8-ranger-portfolio',
+  m4: 'm4-night-camp-style',
+  m5: 'm5-night-camp-guide',
+  m6: 'm6-night-camp-gear',
+  m7: 'm7-night-camp-gear-2',
+  m8: 'm8-night-camp-final',
 };
 
 /** Verify hall-projects/ matches the HALL_DEFAULT list embedded in the app. */
