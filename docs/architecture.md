@@ -21,6 +21,7 @@ src/
     ├── 13-reports-...js
     ├── 14-teacher.js           # Teacher view, PIN (salted PBKDF2 hash, lockout)
     ├── 15-hall.js              # Hall: HALL_DEFAULT, project cards with quest/task counts
+    ├── 15a-background-themes.js # 🎨 Theme picker (stored as P.theme)
     └── 16-init.js
 scripts/cq.mjs             # build / split / check (Node 18+, no dependencies)
 ```
@@ -61,10 +62,14 @@ One folder per module. Each is a normal static website (`index.html`, `style.css
 Night Camp is one site that grows from Module 3 to Module 8. Each project has `basedOn` set to the previous one, so a student's *Practice* starts from the finished previous project and only builds what is new. The app compares the new `finalCode`, `finalCss` and `pages` with the base's and generates the quests from the difference.
 
 - m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base).
-- Each project adds about 20 tasks. A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
+- Each project adds about 20 tasks (currently 20, 21, 21, 20, 17, 21). A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
 - A later project must be a superset of the earlier one: keep the earlier markup and CSS, and add to it. Pages (`pages` in `HALL_DEFAULT`) that did not change must be repeated unchanged.
 - The Hall card shows the count (for example "10 quests · 21 tasks"), computed by `hallCount()` in `15-hall.js`. Check it after changing a project.
 - To change a project, edit it in both places: the `HALL_DEFAULT` JSON in `15-hall.js` and its folder in `hall-projects/`. Then run `npm run build && npm run check`.
+
+## Background themes
+
+The sky behind the app is `#forestBg` (created in `01-forest-background.js`). `15a-background-themes.js` adds the 🎨 Theme button and five themes (night, dawn, sunset, winter, plain). The chosen id is stored in `P.theme` (so it is part of the progress backup) and applied as `data-theme` on `#forestBg`. Each theme is a block of CSS at the end of `src/styles/01-99-nights-theme.css`. To add a theme: add an entry to `THEMES` in the JS and a `#forestBg[data-theme=...]` rule in the CSS.
 
 ## Student view details
 

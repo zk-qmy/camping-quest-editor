@@ -99,3 +99,19 @@ main .colhead{background:linear-gradient(#4d311a,#36210e);border-bottom:2px soli
 .hrm{display:flex;gap:6px;flex-wrap:wrap}.hrm button{background:none;border:0;color:var(--muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:2px 0}.hrm button:hover{color:#ff9a9a}
 .hrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
 @media (prefers-reduced-motion:reduce){#forestBg *,.brand .fire,.dot.cur,.win::before,.win::after{animation:none!important}}
+/* background themes: set with data-theme on #forestBg */
+#forestBg{transition:background .6s}
+#forestBg[data-theme=dawn]{background:radial-gradient(ellipse at 20% 80%,rgba(255,210,140,.5),transparent 38%),linear-gradient(#5b4b8a 0%,#d98a8a 38%,#f2c28b 62%,#2d4a3a 82%,#142a1c 100%)}
+#forestBg[data-theme=dawn] .moon2{top:42%;right:auto;left:14%;background:radial-gradient(circle at 40% 40%,#fffbe0,#ffd36b 60%,#ffab3d);box-shadow:0 0 100px 40px rgba(255,190,100,.5)}
+#forestBg[data-theme=sunset]{background:linear-gradient(#1d1038 0%,#5a2150 30%,#c8452f 58%,#f08a2c 70%,#2a1408 88%,#120a05 100%)}
+#forestBg[data-theme=sunset] .moon2{top:46%;right:auto;left:62%;background:radial-gradient(circle at 40% 40%,#fff1c2,#ff9a3c 60%,#e2551b);box-shadow:0 0 110px 45px rgba(255,120,40,.5)}
+#forestBg[data-theme=winter]{background:radial-gradient(ellipse at 78% 12%,rgba(230,240,255,.45),transparent 34%),linear-gradient(#0f1b36 0%,#274b78 45%,#9fc0dc 72%,#e8f1f8 100%)}
+#forestBg[data-theme=winter] svg{filter:hue-rotate(35deg) saturate(.4) brightness(1.8)}
+#forestBg[data-theme=winter] .fog{background:linear-gradient(transparent,rgba(240,248,255,.18) 55%,rgba(240,248,255,.4))}
+#forestBg[data-theme=dawn] .star,#forestBg[data-theme=dawn] .ff,#forestBg[data-theme=dawn] .eyes,#forestBg[data-theme=sunset] .star,#forestBg[data-theme=winter] .ff,#forestBg[data-theme=winter] .eyes{display:none}
+#forestBg[data-theme=plain]{background:linear-gradient(#0e1812,#0a110d)}
+#forestBg[data-theme=plain] svg,#forestBg[data-theme=plain] .moon2,#forestBg[data-theme=plain] .star,#forestBg[data-theme=plain] .ff,#forestBg[data-theme=plain] .eyes,#forestBg[data-theme=plain] .fog{display:none}
+.themes{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:10px}
+.theme{height:84px;border-radius:12px;border:3px solid var(--line);color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 4px #000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
+.theme span{font-size:24px}
+.theme.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,201,74,.4)}

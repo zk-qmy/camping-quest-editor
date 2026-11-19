@@ -13,6 +13,7 @@ A gamified HTML/CSS editor and course platform for a young student (course lesso
 - Student view: Type and Blocks editors, quests, points, collection and stickers
 - Teacher view for editing lessons, settings and rewards
 - Hall of demo projects, one per module. They build on each other (Night Camp grows from Module 3 to Module 8), with about 20 tasks each
+- Five background themes (night forest, dawn, sunset, winter, calm dark) from the 🎨 Theme button, saved with the student's progress
 - Numbered tasks ("Task 1:", "Task 2:" and so on) in every quest
 
 ## Quick start
@@ -109,7 +110,7 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 | 5 · Module 7 | 25–28 | Night Camp: Gear Shop 2.0 | [`m7-night-camp-gear-2`](hall-projects/m7-night-camp-gear-2) |
 | 6 · Module 8 | 29–32 | Night Camp: Final site (3 pages) | [`m8-night-camp-final`](hall-projects/m8-night-camp-final) |
 
-Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks. Each folder is a standalone site: open its `index.html`. Images the pages reference (e.g. `campfire.png`) are not included.
+Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks. The look is shared: a dark forest palette, a centred main area, orange headings and rounded cards. Each folder is a standalone site: open its `index.html`. Images the pages reference (e.g. `campfire.png`) are not included.
 
 ## Updating content
 
