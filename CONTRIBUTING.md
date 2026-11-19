@@ -16,8 +16,8 @@ See the [README](README.md#repository-layout) and [docs/architecture.md](docs/ar
 ## Conventions
 
 - 2-space indentation, UTF-8, LF line endings (see `.editorconfig`).
-- Hall projects are deliberately simple beginner code: no frameworks, no JavaScript. Each project is self-contained in its own folder (`index.html`, `style.css`, extra pages).
-- Change lessons through the app's Teacher view, then export and run `npm run split` (see [docs/architecture.md](docs/architecture.md)). Don't hand-edit `src/data/course.json`.
+- Hall projects are deliberately simple beginner code: no frameworks, no JavaScript. Each project lives in its own folder (`index.html`, `style.css`, extra pages) and builds on the previous one (see [docs/architecture.md](docs/architecture.md#the-projects-build-on-each-other)). Aim for about 20 new tasks per project and check the count on the Hall card.
+- Change lessons through the app's Teacher view, then export and run `npm run split` (see [docs/architecture.md](docs/architecture.md)). Avoid hand-editing `src/data/course.json`. If you must, keep the `rev` counter increasing and make sure `pin` stays empty.
 - Don't commit student progress backups or personal data.
 
 ## Secrets and the Teacher PIN

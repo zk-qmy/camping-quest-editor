@@ -19,8 +19,8 @@ src/
     ├── 11-screen-stickers-...js
     ├── 12-guide.js
     ├── 13-reports-...js
-    ├── 14-teacher.js           # Teacher view
-    ├── 15-hall.js              # Hall (includes HALL_DEFAULT)
+    ├── 14-teacher.js           # Teacher view, PIN (salted PBKDF2 hash, lockout)
+    ├── 15-hall.js              # Hall: HALL_DEFAULT, project cards with quest/task counts
     └── 16-init.js
 scripts/cq.mjs             # build / split / check (Node 18+, no dependencies)
 ```
@@ -45,7 +45,7 @@ Student progress lives in the browser's `localStorage`; the app's **Backup** but
 
 ## `hall-projects/`
 
-One folder per module. Each is a normal static website (`index.html`, `style.css`, extra pages). File names match the links used inside the pages, so each folder opens directly in a browser. The same projects are embedded in the app as `HALL_DEFAULT` (`src/js/15-hall.js`).
+One folder per module. Each is a normal static website (`index.html`, `style.css`, extra pages). File names match the links used inside the pages, so each folder opens directly in a browser. The same projects are embedded in the app as `HALL_DEFAULT` (`src/js/15-hall.js`), and `npm run check` fails if the two differ (folder names are mapped in `HALL_DIRS` in `scripts/cq.mjs`).
 
 | Folder | Module | Lessons |
 |---|---|---|
@@ -55,6 +55,25 @@ One folder per module. Each is a normal static website (`index.html`, `style.css
 | `m6-night-camp-gear` | 6 | 21–24 |
 | `m7-night-camp-gear-2` | 7 | 25–28 |
 | `m8-night-camp-final` | 8 | 29–32 |
+
+### The projects build on each other
+
+Night Camp is one site that grows from Module 3 to Module 8. Each project has `basedOn` set to the previous one, so a student's *Practice* starts from the finished previous project and only builds what is new. The app compares the new `finalCode`, `finalCss` and `pages` with the base's and generates the quests from the difference.
+
+- m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base).
+- Each project adds about 20 tasks. A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
+- A later project must be a superset of the earlier one: keep the earlier markup and CSS, and add to it. Pages (`pages` in `HALL_DEFAULT`) that did not change must be repeated unchanged.
+- The Hall card shows the count (for example "10 quests · 21 tasks"), computed by `hallCount()` in `15-hall.js`. Check it after changing a project.
+- To change a project, edit it in both places: the `HALL_DEFAULT` JSON in `15-hall.js` and its folder in `hall-projects/`. Then run `npm run build && npm run check`.
+
+## Student view details
+
+- Tasks are numbered "Task 1:", "Task 2:" and so on by a CSS counter (`.task .ttext::before` in `src/styles/00-preamble.css`), restarting in each quest.
+- Quests of the lessons in `course.json` are saved with the lesson. Hall projects generate theirs on demand.
+
+## Deployment
+
+`.github/workflows/pages.yml` publishes `index.html`, `hall-projects/` and `lessons/` (copied to `_site/`) to GitHub Pages. In the repo settings, Pages → Source must be **GitHub Actions**. `.github/workflows/ci.yml` runs `npm run check` plus link checks on every push and pull request.
 
 ## `lessons/`
 

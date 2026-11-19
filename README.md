@@ -12,7 +12,8 @@ A gamified HTML/CSS editor and course platform for a young student (course lesso
 
 - Student view: Type and Blocks editors, quests, points, collection and stickers
 - Teacher view for editing lessons, settings and rewards
-- Hall of demo projects and guides, one per module
+- Hall of demo projects, one per module. They build on each other (Night Camp grows from Module 3 to Module 8), with about 20 tasks each
+- Numbered tasks ("Task 1:", "Task 2:" and so on) in every quest
 
 ## Quick start
 
