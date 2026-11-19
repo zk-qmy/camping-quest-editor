@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Code Quest</title>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style id="appcss">{{STYLES}}</style>
+</head>
+<body>
+<template id="shell">
+<div id="forestBg"><div class="moon"></div><div class="fog"></div></div>
+<header>
+  <div class="brand" id="brand">Code Quest</div>
+  <select class="hsel" id="lessonSel" aria-label="Lesson"></select>
+  <div class="modes"><button data-mode="type">⌨️ Type</button><button data-mode="blocks">🧱 Blocks</button></div>
+  <button class="hbtn small" id="undoBtn">↶ Undo</button>
+  <div class="pts" title="Your points">⭐ <span id="pts">0</span></div>
+  <button class="hbtn" id="hallBtn">🏛 Hall</button>
+  <button class="hbtn" id="collBtn">🎒 Collection</button>
+  <button class="hbtn small" id="petsBtn" title="Show or hide your stickers" hidden>🐾</button>
+  <button class="hbtn small" id="backupBtn" title="Save or load your progress">💾 Backup</button>
+  <button class="hbtn small" id="guideBtn">❓ Guide</button>
+  <button class="hbtn small" id="teacherBtn">Teacher</button>
+</header>
+<main>
+  <section class="col" id="qCol"><div class="qwrap" id="quest"></div></section>
+  <section class="col" id="edCol"><div class="colhead ph"><span class="ftabs" id="ftabs"></span><span>YOUR CODE</span></div><div class="edwrap"><div id="gutter">1</div><textarea id="code" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Code"></textarea></div></section>
+  <section class="col" id="palCol"><div class="colhead">BLOCKS · drag them →</div><div class="psearch"><input id="blockSearch" type="search" placeholder="🔍 Search: h1, img, table, color…" autocomplete="off" spellcheck="false"></div><div class="scroll" id="paletteScroll"><div id="palette"></div></div><div id="trash">🗑<br>Drop here<br>to remove</div></section>
+  <section class="col" id="wsCol"><div class="colhead ph"><span>YOUR BLOCKS</span><span class="ptabs" id="wsPages"></span></div><div class="scroll" id="ws"></div></section>
+  <section class="col" id="preCol"><div class="colhead ph"><span>YOUR WEBSITE</span><span class="vtabs"><button class="vtab active" data-v="preview">Your website</button><button class="vtab" data-v="goal">🎯 Goal</button><button class="vtab" data-v="code">Real code</button><button class="vtab big" id="bigBtn" title="Show bigger">⛶ Bigger</button></span></div><div id="goalNote" hidden>🎯 The goal. The <b>orange outline</b> shows what this quest adds.</div><iframe id="preview" title="Your website"></iframe><iframe id="goalPrev" title="Expected result" hidden></iframe><pre id="codeView" hidden></pre><div class="codefoot" id="codefoot" hidden><button class="pbtn" id="toTyping">⌨️ Keep building by typing</button></div></section>
+</main>
+<iframe id="baseFrame" aria-hidden="true" tabindex="-1" title="baseline"></iframe>
+<div id="teacherView" hidden></div>
+<div id="guideView" hidden></div>
+<div id="hallView" hidden></div>
+<div class="rz v" id="rz1" title="Drag to resize · double-click to reset" hidden></div><div class="rz v" id="rz2" title="Drag to resize · double-click to reset" hidden></div><div class="rz h" id="rz3" title="Drag to resize · double-click to reset" hidden></div>
+<div id="pets"></div>
+<div id="toast"></div>
+<div class="overlay" id="winBox"><div class="win" id="winInner"></div></div>
+<div class="overlay" id="bigView"><div class="bigbox"><div class="bigbar"><span class="vtabs"><button class="vtab" data-bv="mine">Your website</button><button class="vtab" data-bv="goal">🎯 Goal</button><button class="vtab" data-bv="both">Side by side</button></span><span class="bignote" id="bigNote"></span><button class="pbtn" id="bigClose">✕ Close</button></div><div class="bigframes"><div class="bf" id="bfMine"><div class="bfl">Your website</div><iframe id="bigMine" title="Your website, big"></iframe></div><div class="bf" id="bfGoal"><div class="bfl">🎯 Goal</div><iframe id="bigGoal" title="Expected result, big"></iframe></div></div></div></div>
+<div class="overlay" id="modal"><div class="mbox" id="modalBox"></div></div>
+</template>
+<script type="application/json" id="data">{{DATA}}</script>
+<script id="app">{{SCRIPT}}</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "camping-quest-editor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Gamified HTML/CSS course platform themed on 99 Nights in the Forest",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "node scripts/cq.mjs build",
+    "split": "node scripts/cq.mjs split",
+    "check": "node scripts/cq.mjs check && node scripts/cq.mjs check-hall"
+  }
+}

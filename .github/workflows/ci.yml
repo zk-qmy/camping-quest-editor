@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: index.html is in sync with src/
+        run: npm run check
+      - name: Embedded app data is valid JSON
+        run: |
+          python3 - <<'PY'
+          import re, json
+          s = open('index.html', encoding='utf-8').read()
+          m = re.search(r'<script type="application/json" id="data">(.*?)</script>', s, re.S)
+          assert m, "data block not found"
+          json.loads(m.group(1))
+          print("data block OK")
+          PY
+      - name: Hall project links resolve
+        run: |
+          python3 - <<'PY'
+          import re, pathlib, sys
+          bad = []
+          for page in pathlib.Path('hall-projects').rglob('*.html'):
+              for href in re.findall(r'(?:href|src)="([^"#:]+)"', page.read_text(encoding='utf-8')):
+                  if href.endswith(('.png', '.jpg')):
+                      continue  # images are not in the repo yet
+                  if not (page.parent / href).exists():
+                      bad.append(f"{page}: {href}")
+          print("\n".join(bad) or "all links OK")
+          sys.exit(1 if bad else 0)
+          PY

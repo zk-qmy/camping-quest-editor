@@ -1,0 +1,13 @@
+body { background-color: #0b1f14; color: wheat; font-family: Verdana, sans-serif; margin: 0; }
+nav { background-image: linear-gradient(orange, darkorange); padding: 15px; text-align: center; }
+nav a { color: black; margin: 0 15px; font-size: 20px; text-decoration: none; }
+nav a:hover { color: white; }
+main { padding: 20px 40px; }
+h1 { color: orange; }
+.photo { border-radius: 50%; box-shadow: 0 0 20px orange; }
+li { margin-bottom: 8px; }
+.works { display: flex; justify-content: space-around; }
+.work { background-image: linear-gradient(#22352a, #0b1f14); padding: 15px; border-radius: 10px; box-shadow: 5px 5px 10px black; text-align: center; transition: 1s linear; }
+.work:hover { transform: scale(1.1); }
+.work a { color: yellow; }
+iframe { border: 3px solid orange; }
