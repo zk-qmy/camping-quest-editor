@@ -22,6 +22,7 @@ src/
     ├── 14-teacher.js           # Teacher view, PIN (salted PBKDF2 hash, lockout)
     ├── 15-hall.js              # Hall: HALL_DEFAULT, project cards with quest/task counts
     ├── 15a-background-themes.js # 🎨 Theme picker (stored as P.theme)
+    ├── 15b-popup-quiz.js       # 🧠 pop-up quiz (student side)
     └── 16-init.js
 scripts/cq.mjs             # build / split / check (Node 18+, no dependencies)
 ```
@@ -81,6 +82,14 @@ Night Camp is one site that grows from Module 3 to Module 8. Each project has `b
 ## Background themes
 
 The sky behind the app is `#forestBg` (created in `01-forest-background.js`). `15a-background-themes.js` adds the 🎨 Theme button and five themes (night, dawn, sunset, winter, plain). The chosen id is stored in `P.theme` (so it is part of the progress backup) and applied as `data-theme` on `#forestBg`. Each theme is a block of CSS at the end of `src/styles/01-99-nights-theme.css`. To add a theme: add an entry to `THEMES` in the JS and a `#forestBg[data-theme=...]` rule in the CSS.
+
+## Pop-up quiz
+
+- **Content** lives in `DATA.quiz` (so it is saved with the course and exported with it): `{ on, min, max, pmin, pmax, items: [{ id, q, opts: [4 strings], ans: index, why }] }`. `min`/`max` are minutes between quizzes, `pmin`/`pmax` the bonus points range. The teacher edits it in the Teacher view → 🧠 Quiz (`tQuiz()` in `14-teacher.js`).
+- **Student side** is `src/js/15b-popup-quiz.js`. Progress fields in `P` (so they are part of the Backup): `quizNext` (time of the next quiz), `quizWait` (a quiz is waiting), `quizCur` (the question shown, kept until answered), `quizSeen` (questions already asked, so they do not repeat until all were used), `quizRight`, `quizWrong`.
+- **Flow:** every 20 seconds `quizTick()` checks the clock. When `quizNext` has passed, the 🧠 button (`#quizBtn`) shows and pulses. Clicking it opens one question with shuffled answers. A right answer gives a random number of points between `pmin` and `pmax` (written to `P.points` and `P.log`); a wrong answer shows the right one. Either way the next quiz is scheduled randomly between `min` and `max` minutes. **Later** closes the popup and keeps the same question waiting.
+- A question is only used when it has text, at least 2 non-empty answers, and the right answer is one of them. The Teacher tab marks unused questions.
+- **Try a quiz now** in the Teacher tab opens a question without giving points or changing the schedule.
 
 ## Student view details
 

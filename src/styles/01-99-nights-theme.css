@@ -115,3 +115,13 @@ main .colhead{background:linear-gradient(#4d311a,#36210e);border-bottom:2px soli
 .theme{height:84px;border-radius:12px;border:3px solid var(--line);color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 4px #000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer}
 .theme span{font-size:24px}
 .theme.on{border-color:var(--gold);box-shadow:0 0 0 2px rgba(255,201,74,.4)}
+/* pop-up quiz */
+.hbtn.quiz{background:#3a2208;border-color:var(--fire);color:var(--gold);animation:qpulse 1.6s infinite}
+@keyframes qpulse{0%,100%{box-shadow:0 0 0 0 rgba(255,138,42,.75)}50%{box-shadow:0 0 0 10px rgba(255,138,42,0)}}
+.qbox{width:min(460px,100%)}
+.qq{font-size:18px;font-weight:800;color:var(--text)!important;margin-bottom:12px}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qopt{background:var(--panel2);border:2px solid var(--line);color:var(--text);border-radius:12px;padding:11px 14px;font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.qopt:hover{border-color:var(--gold)}
+.qwhy{margin-top:8px}
+.qbad{border-color:#b9772f}

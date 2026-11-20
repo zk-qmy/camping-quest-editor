@@ -34,6 +34,7 @@ var GUIDE_STUDENT='<div class="kid">'+
  '<tr><td>Remove a block</td><td>Drag it back to the left side</td></tr>'+
  '<tr><td>Make a mistake</td><td>Click <b>↶ Undo</b></td></tr>'+
  '<tr><td>See the real code</td><td>Click <b>Real code</b> above your website</td></tr>'+
+ '<tr><td>🧠 Quiz!</td><td>Every 15 to 30 minutes a 🧠 button pops up at the top. Click it, answer the question, and a right answer gives you bonus ⭐ points.</td></tr>'+
  '<tr><td>🎨 Theme</td><td>Change the sky behind your quests: night forest, dawn, sunset, winter or calm dark. It is saved with your progress.</td></tr></table>'+
  '<h3>🏛 The Hall</h3><p>Click <b>🏛 Hall</b> at the top to see finished demo projects. They build on each other: <b>Night Camp</b> grows a little more in every module. Each card shows how many quests and tasks it has.</p><table><tr><th>Button</th><th>What happens</th></tr>'+
  '<tr><td>👀 Open</td><td>Look at the website and its code.</td></tr>'+
@@ -51,6 +52,7 @@ var GUIDE_TEACHER=
  '<tr><td>📨 Reports</td><td>Tasks the student asked you to check (opens first when some are waiting)</td></tr>'+
  '<tr><td>📚 Lessons</td><td>Add lessons, paste final code, make and edit quests</td></tr>'+
  '<tr><td>🏛 Hall</td><td>Demo projects he can open, practise or make his own</td></tr>'+
+ '<tr><td>🧠 Quiz</td><td>The pop-up quiz: switch it on or off, set how often it appears and how many bonus points a right answer gives, and write the questions</td></tr>'+
  '<tr><td>🎁 Items</td><td>Prizes and screen stickers</td></tr>'+
  '<tr><td>📦 Prizes to give</td><td>Real prizes he bought or won</td></tr>'+
  '<tr><td>⚙️ Settings</td><td>Course name, quest limit, points, PIN, this device’s progress</td></tr>'+

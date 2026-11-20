@@ -24,8 +24,8 @@ function renderTeacher(){
   var h='<div class="tv"><div class="tvbar"><h2>🛠 Teacher</h2><span class="st"></span><button class="sbtn" data-act="tguide">❓ Teacher guide</button><button class="bigbtn" data-act="save">💾 Save to page</button><button class="sbtn" data-act="export">Export</button><button class="sbtn" data-act="import">Import</button><button class="pbtn" data-act="close">▶ Student view</button></div>';
   var waiting=P.items.filter(function(o){var it=itemById(o.id);return !o.given&&(!it||it.kind!=='sticker');}).length;
   var pr=pendingReports().length;
-  h+='<div class="tnav">'+[['reports','📨 Reports'+(pr?' ('+pr+')':'')],['lessons','📚 Lessons'],['hall','🏛 Hall'],['items','🎁 Items'],['prizes','📦 Prizes to give'+(waiting?' ('+waiting+')':'')],['settings','⚙️ Settings']].map(function(t){return '<button class="tab'+(tv.tab===t[0]?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>';
-  if(tv.tab==='reports')h+=tReports();else if(tv.tab==='lessons')h+=tLessons();else if(tv.tab==='hall')h+=tHall();else if(tv.tab==='items')h+=tItems();else if(tv.tab==='prizes')h+=tPrizes();else h+=tSettings();
+  h+='<div class="tnav">'+[['reports','📨 Reports'+(pr?' ('+pr+')':'')],['lessons','📚 Lessons'],['hall','🏛 Hall'],['items','🎁 Items'],['quiz','🧠 Quiz'],['prizes','📦 Prizes to give'+(waiting?' ('+waiting+')':'')],['settings','⚙️ Settings']].map(function(t){return '<button class="tab'+(tv.tab===t[0]?' on':'')+'" data-tab="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>';
+  if(tv.tab==='reports')h+=tReports();else if(tv.tab==='lessons')h+=tLessons();else if(tv.tab==='hall')h+=tHall();else if(tv.tab==='items')h+=tItems();else if(tv.tab==='quiz')h+=tQuiz();else if(tv.tab==='prizes')h+=tPrizes();else h+=tSettings();
   $('teacherView').innerHTML=h+'</div>';setSt();
 }
 function tLessons(){
@@ -58,6 +58,19 @@ function tLessons(){
   });
   return h+'</div></section></div>';
 }
+function tQuiz(){
+  var c=quizCfg(),n=quizItems().length;
+  var h='<div class="card"><h3>🧠 Pop-up quiz</h3><p class="help">A 🧠 button pops up on his screen at a random time between the two numbers below. When he clicks it he gets one multiple-choice question. A right answer gives him random bonus points. Questions come in a random order.</p>'+
+   '<label class="chk" style="margin-bottom:10px"><input type="checkbox" data-qon'+(c.on?' checked':'')+'> The pop-up quiz is on</label>'+
+   '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"><div><label>Fastest (minutes)</label>'+inp('quiz.min','15','number')+'</div><div><label>Slowest (minutes)</label>'+inp('quiz.max','30','number')+'</div><div><label>Fewest bonus ⭐</label>'+inp('quiz.pmin','5','number')+'</div><div><label>Most bonus ⭐</label>'+inp('quiz.pmax','15','number')+'</div></div>'+
+   '<p class="help" style="margin-top:8px">'+n+' question'+(n===1?'':'s')+' ready. A question needs text, at least 2 answers and one marked right.</p>'+
+   '<button class="sbtn" data-act="qTest">🧪 Try a quiz now (no points)</button></div>';
+  c.items.forEach(function(it,i){var b='quiz.items.'+i,bad=!quizValid(it);
+    h+='<div class="card'+(bad?' qbad':'')+'"><div style="display:flex;gap:6px;align-items:center"><b>'+(i+1)+'.</b>'+inp(b+'.q','Question')+'<button class="ib del" data-act="qDel" data-i="'+i+'">✕</button></div>'+
+      [0,1,2,3].map(function(k){return '<div style="display:flex;gap:8px;align-items:center;margin-top:6px"><input type="radio" style="width:auto" name="qa'+i+'" data-qans="'+i+'" value="'+k+'" title="This is the right answer"'+(+it.ans===k?' checked':'')+'>'+inp(b+'.opts.'+k,'Answer '+(k+1)+(k>1?' (optional)':''))+'</div>';}).join('')+
+      '<div style="margin-top:6px">'+inp(b+'.why','Why? (shown after he answers, optional)')+'</div>'+(bad?'<p class="help" style="color:#ffb36b">Not used yet: add the question, 2 answers and tick the right one.</p>':'')+'</div>';});
+  return h+'<button class="dash" data-act="qAdd">+ Question</button>';
+}
 function tItems(){
   var h='<div class="card"><h3>Item collection</h3><p class="help"><b>Real prizes</b> are things you hand to him. <b>Screen stickers</b> are characters that move around his screen when he uses them. Normal items cost points; <b>special</b> items can only be won in hard quests. Click a picture to upload your own: PNG with a see-through background works best for stickers, and small animated GIFs keep moving.</p>';
   DATA.items.forEach(function(it,i){var b='items.'+i;
@@ -84,7 +97,7 @@ function tSettings(){
    '<div class="card"><h3>This device</h3><p class="help">He has ⭐ '+P.points+' now (earned '+P.earned+' in total).</p><button class="sbtn" data-act="give" data-x="5">+5 ⭐ for effort</button> <button class="sbtn" data-act="give" data-x="10">+10 ⭐</button> <button class="sbtn" data-act="give" data-x="-5">−5 ⭐</button> <button class="sbtn" data-act="unlock">Unlock all quests in this lesson</button> <button class="sbtn" style="color:#ff9a9a" data-act="reset">Reset his progress</button></div>';
 }
 var TV=$('teacherView');
-TV.addEventListener('change',function(e){var t=e.target;if(t.id==='pinSet'&&t.value){var v=t.value;try{pinHash(v).then(function(h){DATA.pin=h;touch();renderTeacher();toast('PIN saved');},function(){toast('Cannot set a PIN in this browser');});}catch(x){toast('Cannot set a PIN in this browser');}}});
+TV.addEventListener('change',function(e){var t=e.target;if(t.dataset.qon!==undefined){quizCfg().on=t.checked;touch();return;}if(t.dataset.qans!==undefined){quizCfg().items[+t.dataset.qans].ans=+t.value;touch();renderTeacher();return;}if(t.id==='pinSet'&&t.value){var v=t.value;try{pinHash(v).then(function(h){DATA.pin=h;touch();renderTeacher();toast('PIN saved');},function(){toast('Cannot set a PIN in this browser');});}catch(x){toast('Cannot set a PIN in this browser');}}});
 TV.addEventListener('click',function(e){if(e.target.id==='pinClear'){DATA.pin='';touch();renderTeacher();toast('PIN removed');}});
 TV.addEventListener('input',function(e){var t=e.target;if(!t.dataset.b)return;setPath(t.dataset.b,t.type==='number'?(+t.value||0):t.value);touch();if(t.hasAttribute('data-rr'))renderTeacher();});
 TV.addEventListener('change',function(e){var t=e.target;
@@ -143,6 +156,9 @@ TV.addEventListener('click',function(e){
    case 'qDel':l.quests.splice(j,1);break;
    case 'tDel':l.quests[j].tasks.splice(k,1);if(!l.quests[j].tasks.length)l.quests.splice(j,1);break;
    case 'tAdd':l.quests[j].tasks.push({t:'New task',h:'',check:{type:'manual'}});break;
+   case 'qAdd':quizCfg().items.push({id:uid('z'),q:'',opts:['','','',''],ans:0,why:''});break;
+   case 'qDel':quizCfg().items.splice(+b.dataset.i,1);break;
+   case 'qTest':openQuiz(true);return;
    case 'iAdd':DATA.items.push({id:uid('i'),emoji:'🎁',name:'New item',price:50,special:false,kind:'merch'});break;
    case 'iDel':DATA.items.splice(+b.dataset.i,1);break;
    case 'noImg':delete DATA.items[+b.dataset.i].img;break;

@@ -40,6 +40,10 @@ Camping Quest Editor: a gamified HTML/CSS course app for one young student (cour
 
 `src/js/15a-background-themes.js` plus the `#forestBg[data-theme=...]` rules at the end of `src/styles/01-99-nights-theme.css`. Five themes (night, dawn, sunset, winter, plain). The choice is stored in `P.theme`. To add one: add to `THEMES` and add a CSS rule.
 
+## Pop-up quiz
+
+Student code: `src/js/15b-popup-quiz.js`. Teacher tab: `tQuiz()` in `14-teacher.js`. Questions live in `DATA.quiz` (course.json); timing and answers are in `P.quiz*`. To test it headless, set `quizNext` to a past time in `localStorage` key `cq-progress` before the app script runs, then click `#quizBtn` and the `.qopt` answers. Details in docs/architecture.md.
+
 ## Course data (`src/data/course.json`)
 
 Three demo lessons: Lesson 1 Build the guide, Lesson 2 Forest style, Lesson 3 Camp schedule. Keep them short (2-3 tasks per quest, no placeholder tasks). Bump `rev` when editing by hand. Student progress lives in the browser's localStorage, not in the repo.
