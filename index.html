@@ -1655,7 +1655,7 @@ var GUIDE_TEACHER=
  '<tr><td>Export · Import</td><td>Export copies everything as text. Import pastes a lesson code or export: <b>➕ Add these lessons</b> keeps yours and adds the new ones; <b>Replace everything</b> restores a full backup</td></tr>'+
  '<tr><td>📤 Copy (on a lesson)</td><td>A code for just that lesson, to share with another teacher or account</td></tr>'+
  '<tr><td>▶ Student view</td><td>Back to the editor</td></tr></table>'+
- '<h3>Before the first lesson</h3><ol class="steps"><li>Set a <b>Teacher PIN</b> in ⚙️ Settings.</li><li>Change the items in 🎁 Items to your real prizes, and pick stickers.</li><li>Click <b>💾 Save to page</b>, then share the link with the student.</li><li>On his computer, open the link in a normal (not private) browser window and keep using that browser.</li></ol>'+
+ '<h3>Before the first lesson</h3><ol class="steps"><li>Click <b>Teacher</b> and log in with your teacher account (see below). Students and visitors can’t open the Teacher view without logging in.</li><li>Change the items in 🎁 Items to your real prizes, and pick stickers.</li><li>Click <b>💾 Save to page</b>, then share the link with the student.</li><li>On his computer, open the link in a normal (not private) browser window and keep using that browser.</li></ol>'+
  '<h3>Add a lesson</h3><ol class="steps">'+
  '<li><b>📚 Lessons</b> → <b>+ New lesson</b>, and type its name.</li>'+
  '<li>Under <b>Builds on</b>, pick the previous lesson. The student keeps his code, and only the new parts become quests.</li>'+
@@ -1710,7 +1710,8 @@ var GUIDE_TEACHER=
  '<tr><td>Save to page</td><td>New or changed lessons reach the student <b>only after 💾 Save to page</b>. Until then they stay on your computer (the top of this view says “Not saved to the page yet”), and closing this view reminds you. Only a teacher account can save. The student may need to reload the page.</td></tr>'+
  '<tr><td>Student progress</td><td>Saved automatically in the student’s browser (same computer + same browser to continue). Lost in private/incognito windows or if browser data is cleared. Reports and “Prizes to give” are on his computer too.</td></tr>'+
  '<tr><td>💾 Backup code</td><td>The student’s <b>💾 Backup</b> button makes a text code with all his progress (quests, points, items, code, blocks, reports). Keep a copy after each lesson; <b>Load my progress</b> restores it on any computer. It also lets you check his prizes and reports on your own computer.</td></tr>'+
- '<tr><td>Teacher PIN</td><td>Keeps the student out of this view. It is saved as a salted hash, not plain text, and 5 wrong tries lock it for 30 seconds. It still only stops a child, not a determined person with the page file.</td></tr>'+
+ '<tr><td>Teacher login</td><td>On the web page, the <b>Teacher</b> button only opens the Teacher view after a successful teacher login (a GitHub account that can edit this project). Before that, students and visitors only see the login box. A login is checked again after an hour, and logging out locks the view. Only a teacher account can save, so the course can’t be changed by anyone else.</td></tr>'+
+ '<tr><td>Teacher PIN (Claude-hosted copy only)</td><td>Where there is no GitHub login, a PIN keeps the student out. It is saved as a salted hash, and 5 wrong tries lock it for 30 seconds. It only stops a child, not a determined person with the page file.</td></tr>'+
  '<tr><td>Lesson backups</td><td><b>Export</b> copies your lessons and items as text; <b>Import</b> brings them back. (This is different from the student’s 💾 Backup, which holds <i>his</i> progress.)</td></tr></table>'+
  '<h3>The Hall</h3><table><tr><th>Part</th><th>How it works</th></tr>'+
  '<tr><td>Projects</td><td>6 built-in projects, one per module (Modules 3–8, lessons 9–32), following each module’s project lesson, 99 Nights themed: all one site, <b>Night Camp</b> (a ranger school), that grows module by module, each about 20 tasks and showing that module’s ideas: <b>Night Camp</b> (inline styles), <b>style.css</b> (selectors), <b>Two pages</b> (borders, lists, margins), <b>Flexbox</b>, <b>Hover and position</b> (:hover, ::before, fixed/absolute), <b>Final site</b> (gradients, shadows, transforms, video). Edit them in <b>🏛 Hall</b>. Use <b>+ New project</b> to add your own and <b>hide</b> to keep one out of sight.</td></tr>'+
@@ -1792,11 +1793,12 @@ var tv={tab:'lessons',sel:0},artifactApi=null,sampleApi=null;
 try{if(window.claude&&window.claude.use){window.claude.use('artifact').then(function(a){artifactApi=a;}).catch(function(){});window.claude.use('sample').then(function(s){sampleApi=s;if(!$('teacherView').hidden)renderTeacher();}).catch(function(){});}}catch(e){}
 $('teacherBtn').addEventListener('click',function(){setTimeout(placeHandles,50);});
 $('teacherBtn').onclick=function(){
+  if(!artifactApi){teacherGate();return;}
   if(DATA.pin){modal('<h2>Teacher only</h2><input type="password" id="pinIn" placeholder="PIN"><div class="mrow"><button class="sbtn" data-close>Cancel</button><button class="pbtn" id="pinGo">Open</button></div>');
     var go=function(){if(Date.now()<pinLock){toast('Too many tries. Wait a little.');return;}var v=$('pinIn').value;var done=function(ok){if(ok){pinFails=0;closeModal();openT();if(DATA.pin.indexOf('pbkdf2$')!==0&&v){pinHash(v).then(function(h){DATA.pin=h;touch();}).catch(function(){});}}else{if(++pinFails>=5){pinFails=0;pinLock=Date.now()+30000;}toast('Wrong PIN');}};try{pinCheck(v).then(done,function(){toast('PIN check is not available in this browser');});}catch(e){toast('PIN check is not available in this browser');}};$('pinGo').onclick=go;$('pinIn').onkeydown=function(e){if(e.key==='Enter')go();};$('pinIn').focus();}
   else openT();
 };
-function openT(){if(pendingReports().length)tv.tab='reports';tv.sel=Math.min(P.lesson,Math.max(0,DATA.lessons.length-1));$('teacherView').hidden=false;renderTeacher();}
+function openT(){if(!artifactApi&&!teacherOK)return;teacherOK=false;if(pendingReports().length)tv.tab='reports';tv.sel=Math.min(P.lesson,Math.max(0,DATA.lessons.length-1));$('teacherView').hidden=false;renderTeacher();}
 function setSt(){var s=document.querySelector('.st');if(s){s.textContent=dirty?'● Not saved to the page yet: your student can’t see these changes':'✓ Saved: your student sees this';s.classList.toggle('dirty',dirty);}}
 function gp(path){if(!path)return DATA;return path.split('.').reduce(function(a,k){return a==null?a:a[k];},DATA);}
 function setPath(path,v){var ks=path.split('.'),last=ks.pop(),t=gp(ks.join('.'));if(t!=null)t[last]=v;}
@@ -1875,7 +1877,7 @@ function tSettings(){
   return accountCard()+'<div class="card"><h3>Course</h3><label>Name shown at the top</label>'+inp('title')+'</div>'+
    '<div class="card"><h3>Default quest limit</h3><p class="help">Used for lessons that don’t set their own “Max quests”. Leave empty for no limit.</p>'+inp('maxQuests','no limit','number')+'</div>'+
    '<div class="card"><h3>Points per quest</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div><label>Easy</label>'+inp('points.easy','','number')+'</div><div><label>Medium</label>'+inp('points.medium','','number')+'</div><div><label>Hard</label>'+inp('points.hard','','number')+'</div></div></div>'+
-   '<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>'+
+   (artifactApi?'<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>':'')+
    '<div class="card"><h3>This device</h3><p class="help">He has ⭐ '+P.points+' now (earned '+P.earned+' in total).</p><button class="sbtn" data-act="give" data-x="5">+5 ⭐ for effort</button> <button class="sbtn" data-act="give" data-x="10">+10 ⭐</button> <button class="sbtn" data-act="give" data-x="-5">−5 ⭐</button> <button class="sbtn" data-act="unlock">Unlock all quests in this lesson</button> <button class="sbtn" style="color:#ff9a9a" data-act="reset">Reset his progress</button></div>';
 }
 var TV=$('teacherView');
@@ -2019,7 +2021,7 @@ function importData(){
 /* A teacher account is a GitHub account that can write to this project. She logs in once with an access token
    (kept only in this browser, never saved to the page, a backup or an export). 💾 Save to page then makes one
    commit with the course data (src/data/course.json + index.html) and GitHub Pages publishes it. The PIN is never saved. */
-var GHKEY='cq-teacher-account',GHSYNC='cq-synced-rev';
+var GHKEY='cq-teacher-account',GHSYNC='cq-synced-rev',teacherOK=false,GHFRESH=3600000;
 function ghAcc(){try{var a=JSON.parse(localStorage.getItem(GHKEY)||'null');return a&&a.token&&a.repo?a:null;}catch(e){return null;}}
 function ghDefaultRepo(){var m=location.hostname.match(/^([^.]+)\.github\.io$/),seg=location.pathname.split('/')[1];return m&&seg?m[1]+'/'+seg:'';}
 function ghCall(tok,path,o){
@@ -2047,7 +2049,7 @@ function swapData(html,json){
 }
 function ghSave(){
   var acc=ghAcc();
-  if(!acc){openAccount();return;}
+  if(!acc){openAccount(ghSave);return;}
   var br=acc.branch||'main',repo='/repos/'+acc.repo,json=courseJSON(),headSha,treeSha,page;
   toast('Saving to GitHub…');
   ghCall(acc.token,repo+'/contents/src/data/course.json?ref='+encodeURIComponent(br),{raw:true}).then(function(txt){
@@ -2074,17 +2076,32 @@ function ghSave(){
     if($('ghRe'))$('ghRe').onclick=function(){ghLogout();openAccount();};
   });
 }
+/* The Teacher view only opens after a successful teacher login (a GitHub account with write access to this project).
+   A login checked within the last hour is trusted; otherwise it is checked again, so a removed collaborator or a deleted token loses access. */
+function teacherGate(){
+  var enter=function(){teacherOK=true;openT();},a=ghAcc();
+  if(!a){openAccount(enter,true);return;}
+  if(a.at&&Date.now()-a.at<GHFRESH){enter();return;}
+  toast('Checking your login…');
+  ghCall(a.token,'/repos/'+a.repo).then(function(r){
+    if(r.permissions&&r.permissions.push){a.at=Date.now();try{localStorage.setItem(GHKEY,JSON.stringify(a));}catch(e){}enter();}
+    else{ghLogout();openAccount(enter,true);}
+  }).catch(function(e){
+    if(e&&e.status){ghLogout();openAccount(enter,true);}
+    else toast('Could not check your login. Check the internet and try again.');
+  });
+}
 function ghLogout(){try{localStorage.removeItem(GHKEY);}catch(e){}}
-function openAccount(){
+function openAccount(after,gate){
   var a=ghAcc();
   if(a){
     modal('<h2>🔑 Teacher account</h2><p>✅ Logged in as <b>@'+esc(a.user)+'</b>.</p><p class="help">💾 Save to page saves to <b>'+esc(a.repo)+'</b> ('+esc(a.branch||'main')+') on GitHub. The Teacher PIN is never saved there, so set the PIN in each browser.</p>'+
       '<div class="mrow"><button class="sbtn" id="ghOut">Log out</button><button class="sbtn" data-close>Close</button><button class="pbtn" id="ghNow">💾 Save now</button></div>');
-    $('ghOut').onclick=function(){ghLogout();closeModal();toast('Logged out');if(!$('teacherView').hidden)renderTeacher();};
+    $('ghOut').onclick=function(){ghLogout();teacherOK=false;closeModal();toast('Logged out');if(!$('teacherView').hidden){var c=document.querySelector('[data-act=close]');if(c){c.dataset.force='1';c.click();}}};
     $('ghNow').onclick=function(){closeModal();ghSave();};
     return;
   }
-  modal('<h2>🔑 Teacher account</h2><p>Log in with a GitHub account that can edit this project. Then <b>💾 Save to page</b> saves your changes to GitHub, and the live page updates in a minute or two.</p>'+
+  modal('<h2>🔑 '+(gate?'Teacher login':'Teacher account')+'</h2><p>'+(gate?'Only teachers can open the Teacher view. Log in with the GitHub account that can edit this project.':'Log in with a GitHub account that can edit this project. Then <b>💾 Save to page</b> saves your changes to GitHub, and the live page updates in a minute or two.')+'</p>'+
     '<label>Project (owner/name)</label><input id="ghRepo" value="'+esc(ghDefaultRepo())+'" placeholder="owner/project" autocomplete="off">'+
     '<label style="margin-top:8px;display:block">Access token</label><input type="password" id="ghTok" autocomplete="off" placeholder="github_pat_…">'+
     '<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--gold);font-weight:800">How do I get an account and a token?</summary><ol style="color:var(--muted);line-height:1.6">'+
@@ -2101,8 +2118,8 @@ function openAccount(){
     ghCall(tok,'/user').then(function(u){
       return ghCall(tok,'/repos/'+repo).then(function(r){
         if(!r.permissions||!r.permissions.push){msg.textContent='@'+u.login+' can read this project but cannot save to it. Ask the owner to add you as a collaborator.';return;}
-        try{localStorage.setItem(GHKEY,JSON.stringify({user:u.login,repo:repo,branch:r.default_branch||'main',token:tok}));}catch(e){msg.textContent='This browser would not keep the login.';return;}
-        closeModal();toast('✅ Logged in as @'+u.login);if(!$('teacherView').hidden)renderTeacher();
+        try{localStorage.setItem(GHKEY,JSON.stringify({user:u.login,repo:repo,branch:r.default_branch||'main',token:tok,at:Date.now()}));}catch(e){msg.textContent='This browser would not keep the login.';return;}
+        closeModal();toast('✅ Logged in as @'+u.login);if(after)after();else if(!$('teacherView').hidden)renderTeacher();
       });
     }).catch(function(e){msg.textContent=ghWhy(e);});
   };

@@ -93,11 +93,12 @@ The sky behind the app is `#forestBg` (created in `01-forest-background.js`). `1
 The app is static, so saving needs somewhere to write. `14a-teacher-account.js` uses **GitHub accounts**:
 
 - **Who is a teacher:** a GitHub user who can push to the repo (the owner or a collaborator). She logs in under Teacher → ⚙️ Settings → 🔑 Teacher account with `owner/name` and a fine-grained personal access token (Contents: Read and write, this repo only). Login calls `GET /user` and `GET /repos/{repo}` and requires `permissions.push`.
+- **The Teacher view is gated by this login.** On the web page (no Claude hosting), `#teacherBtn` calls `teacherGate()`: no login → the login box is shown and `#teacherView` stays hidden and empty; a login verified within the last hour (`at` in the stored account, `GHFRESH`) opens it; an older one is re-checked with `GET /repos/{repo}` (`permissions.push`), and a revoked or invalid login is cleared and the login box is shown; if GitHub cannot be reached the view stays closed. `openT()` refuses to run unless the gate just passed (`teacherOK`). Logging out closes the view. The PIN card is only shown on the Claude-hosted copy.
 - **Where the login lives:** only in `localStorage` key `cq-teacher-account` (user, repo, branch, token). It is never part of `DATA`, `P`, the Backup, Export or the page.
 - **What 💾 Save to page does** (`ghSave()`): checks the remote `src/data/course.json` `rev` (if it is newer than what this page started from, it stops with "Someone else saved first"), then makes **one commit** through the Git Data API containing `src/data/course.json` and `index.html`. `index.html` is the current page with only the embedded data swapped (`swapData()`), so it is exactly what `npm run build` would produce and CI's sync check still passes. The PIN is blanked in the saved copy. GitHub Pages then redeploys.
 - **Claude artifact hosting:** if `window.claude` is available the old path (`artifactApi.publish`) is used instead, and only the artifact owner can save.
 - **Safety:** the token must never be committed. `npm run check` blocks `ghp_…` and `github_pat_…`.
-- **Limit:** anyone can open the public page and the Teacher view (the PIN is per browser), but only a GitHub account with write access can save.
+- **Limits:** this is a front-end gate. The page source (and the course data in it, including quiz answers) is still public and a determined person could bypass the screen with developer tools. What truly protects the content is that only a GitHub account with write access can save. Students never see the Teacher screen through the normal app.
 
 ## Pop-up quiz
 

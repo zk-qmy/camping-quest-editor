@@ -42,7 +42,7 @@ Camping Quest Editor: a gamified HTML/CSS course app for one young student (cour
 
 ## Teacher accounts / saving
 
-`src/js/14a-teacher-account.js`: a teacher = a GitHub account with push access, logged in with a fine-grained token kept only in `localStorage` (`cq-teacher-account`). Save to page makes one commit (course.json + index.html with swapped data) through the GitHub API. Never put a token in code, data, docs or tests (tests use a mocked `fetch`). Details in docs/architecture.md.
+`src/js/14a-teacher-account.js`: a teacher = a GitHub account with push access, logged in with a fine-grained token kept only in `localStorage` (`cq-teacher-account`). The Teacher view only opens after a teacher login (`teacherGate()`; `openT()` checks `teacherOK`), so students and visitors only see the login box. Save to page makes one commit (course.json + index.html with swapped data) through the GitHub API. Never put a token in code, data, docs or tests (tests use a mocked `fetch`). Details in docs/architecture.md.
 
 ## Pop-up quiz
 

@@ -2,7 +2,7 @@
 /* A teacher account is a GitHub account that can write to this project. She logs in once with an access token
    (kept only in this browser, never saved to the page, a backup or an export). 💾 Save to page then makes one
    commit with the course data (src/data/course.json + index.html) and GitHub Pages publishes it. The PIN is never saved. */
-var GHKEY='cq-teacher-account',GHSYNC='cq-synced-rev';
+var GHKEY='cq-teacher-account',GHSYNC='cq-synced-rev',teacherOK=false,GHFRESH=3600000;
 function ghAcc(){try{var a=JSON.parse(localStorage.getItem(GHKEY)||'null');return a&&a.token&&a.repo?a:null;}catch(e){return null;}}
 function ghDefaultRepo(){var m=location.hostname.match(/^([^.]+)\.github\.io$/),seg=location.pathname.split('/')[1];return m&&seg?m[1]+'/'+seg:'';}
 function ghCall(tok,path,o){
@@ -30,7 +30,7 @@ function swapData(html,json){
 }
 function ghSave(){
   var acc=ghAcc();
-  if(!acc){openAccount();return;}
+  if(!acc){openAccount(ghSave);return;}
   var br=acc.branch||'main',repo='/repos/'+acc.repo,json=courseJSON(),headSha,treeSha,page;
   toast('Saving to GitHub…');
   ghCall(acc.token,repo+'/contents/src/data/course.json?ref='+encodeURIComponent(br),{raw:true}).then(function(txt){
@@ -57,17 +57,32 @@ function ghSave(){
     if($('ghRe'))$('ghRe').onclick=function(){ghLogout();openAccount();};
   });
 }
+/* The Teacher view only opens after a successful teacher login (a GitHub account with write access to this project).
+   A login checked within the last hour is trusted; otherwise it is checked again, so a removed collaborator or a deleted token loses access. */
+function teacherGate(){
+  var enter=function(){teacherOK=true;openT();},a=ghAcc();
+  if(!a){openAccount(enter,true);return;}
+  if(a.at&&Date.now()-a.at<GHFRESH){enter();return;}
+  toast('Checking your login…');
+  ghCall(a.token,'/repos/'+a.repo).then(function(r){
+    if(r.permissions&&r.permissions.push){a.at=Date.now();try{localStorage.setItem(GHKEY,JSON.stringify(a));}catch(e){}enter();}
+    else{ghLogout();openAccount(enter,true);}
+  }).catch(function(e){
+    if(e&&e.status){ghLogout();openAccount(enter,true);}
+    else toast('Could not check your login. Check the internet and try again.');
+  });
+}
 function ghLogout(){try{localStorage.removeItem(GHKEY);}catch(e){}}
-function openAccount(){
+function openAccount(after,gate){
   var a=ghAcc();
   if(a){
     modal('<h2>🔑 Teacher account</h2><p>✅ Logged in as <b>@'+esc(a.user)+'</b>.</p><p class="help">💾 Save to page saves to <b>'+esc(a.repo)+'</b> ('+esc(a.branch||'main')+') on GitHub. The Teacher PIN is never saved there, so set the PIN in each browser.</p>'+
       '<div class="mrow"><button class="sbtn" id="ghOut">Log out</button><button class="sbtn" data-close>Close</button><button class="pbtn" id="ghNow">💾 Save now</button></div>');
-    $('ghOut').onclick=function(){ghLogout();closeModal();toast('Logged out');if(!$('teacherView').hidden)renderTeacher();};
+    $('ghOut').onclick=function(){ghLogout();teacherOK=false;closeModal();toast('Logged out');if(!$('teacherView').hidden){var c=document.querySelector('[data-act=close]');if(c){c.dataset.force='1';c.click();}}};
     $('ghNow').onclick=function(){closeModal();ghSave();};
     return;
   }
-  modal('<h2>🔑 Teacher account</h2><p>Log in with a GitHub account that can edit this project. Then <b>💾 Save to page</b> saves your changes to GitHub, and the live page updates in a minute or two.</p>'+
+  modal('<h2>🔑 '+(gate?'Teacher login':'Teacher account')+'</h2><p>'+(gate?'Only teachers can open the Teacher view. Log in with the GitHub account that can edit this project.':'Log in with a GitHub account that can edit this project. Then <b>💾 Save to page</b> saves your changes to GitHub, and the live page updates in a minute or two.')+'</p>'+
     '<label>Project (owner/name)</label><input id="ghRepo" value="'+esc(ghDefaultRepo())+'" placeholder="owner/project" autocomplete="off">'+
     '<label style="margin-top:8px;display:block">Access token</label><input type="password" id="ghTok" autocomplete="off" placeholder="github_pat_…">'+
     '<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--gold);font-weight:800">How do I get an account and a token?</summary><ol style="color:var(--muted);line-height:1.6">'+
@@ -84,8 +99,8 @@ function openAccount(){
     ghCall(tok,'/user').then(function(u){
       return ghCall(tok,'/repos/'+repo).then(function(r){
         if(!r.permissions||!r.permissions.push){msg.textContent='@'+u.login+' can read this project but cannot save to it. Ask the owner to add you as a collaborator.';return;}
-        try{localStorage.setItem(GHKEY,JSON.stringify({user:u.login,repo:repo,branch:r.default_branch||'main',token:tok}));}catch(e){msg.textContent='This browser would not keep the login.';return;}
-        closeModal();toast('✅ Logged in as @'+u.login);if(!$('teacherView').hidden)renderTeacher();
+        try{localStorage.setItem(GHKEY,JSON.stringify({user:u.login,repo:repo,branch:r.default_branch||'main',token:tok,at:Date.now()}));}catch(e){msg.textContent='This browser would not keep the login.';return;}
+        closeModal();toast('✅ Logged in as @'+u.login);if(after)after();else if(!$('teacherView').hidden)renderTeacher();
       });
     }).catch(function(e){msg.textContent=ghWhy(e);});
   };

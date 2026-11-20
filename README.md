@@ -13,7 +13,7 @@ A gamified HTML/CSS editor and course platform for a young student (course lesso
 - Student view: Type and Blocks editors, quests, points, collection and stickers
 - Teacher view for editing lessons, settings and rewards
 - Hall of demo projects, one per module. They build on each other (Night Camp grows from Module 3 to Module 8), with about 20 tasks each
-- Teacher accounts: a teacher logs in with a GitHub account that can edit the project, and 💾 Save to page commits the course data to GitHub, so the live page updates (no server needed)
+- Teacher accounts: the Teacher view only opens after a teacher logs in with a GitHub account that can edit the project (students and visitors only see the login box), and 💾 Save to page commits the course data to GitHub, so the live page updates (no server needed)
 - Pop-up quiz: a 🧠 button appears at a random time (every 15 to 30 minutes by default). A right answer gives random bonus points. It expires after 10 minutes if he does not answer. The teacher writes and manages the questions in the Teacher view (🧠 Quiz tab)
 - Five background themes (night forest, dawn, sunset, winter, calm dark) from the 🎨 Theme button, saved with the student's progress
 - Numbered tasks ("Task 1:", "Task 2:" and so on) in every quest

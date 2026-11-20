@@ -10,11 +10,12 @@ var tv={tab:'lessons',sel:0},artifactApi=null,sampleApi=null;
 try{if(window.claude&&window.claude.use){window.claude.use('artifact').then(function(a){artifactApi=a;}).catch(function(){});window.claude.use('sample').then(function(s){sampleApi=s;if(!$('teacherView').hidden)renderTeacher();}).catch(function(){});}}catch(e){}
 $('teacherBtn').addEventListener('click',function(){setTimeout(placeHandles,50);});
 $('teacherBtn').onclick=function(){
+  if(!artifactApi){teacherGate();return;}
   if(DATA.pin){modal('<h2>Teacher only</h2><input type="password" id="pinIn" placeholder="PIN"><div class="mrow"><button class="sbtn" data-close>Cancel</button><button class="pbtn" id="pinGo">Open</button></div>');
     var go=function(){if(Date.now()<pinLock){toast('Too many tries. Wait a little.');return;}var v=$('pinIn').value;var done=function(ok){if(ok){pinFails=0;closeModal();openT();if(DATA.pin.indexOf('pbkdf2$')!==0&&v){pinHash(v).then(function(h){DATA.pin=h;touch();}).catch(function(){});}}else{if(++pinFails>=5){pinFails=0;pinLock=Date.now()+30000;}toast('Wrong PIN');}};try{pinCheck(v).then(done,function(){toast('PIN check is not available in this browser');});}catch(e){toast('PIN check is not available in this browser');}};$('pinGo').onclick=go;$('pinIn').onkeydown=function(e){if(e.key==='Enter')go();};$('pinIn').focus();}
   else openT();
 };
-function openT(){if(pendingReports().length)tv.tab='reports';tv.sel=Math.min(P.lesson,Math.max(0,DATA.lessons.length-1));$('teacherView').hidden=false;renderTeacher();}
+function openT(){if(!artifactApi&&!teacherOK)return;teacherOK=false;if(pendingReports().length)tv.tab='reports';tv.sel=Math.min(P.lesson,Math.max(0,DATA.lessons.length-1));$('teacherView').hidden=false;renderTeacher();}
 function setSt(){var s=document.querySelector('.st');if(s){s.textContent=dirty?'● Not saved to the page yet: your student can’t see these changes':'✓ Saved: your student sees this';s.classList.toggle('dirty',dirty);}}
 function gp(path){if(!path)return DATA;return path.split('.').reduce(function(a,k){return a==null?a:a[k];},DATA);}
 function setPath(path,v){var ks=path.split('.'),last=ks.pop(),t=gp(ks.join('.'));if(t!=null)t[last]=v;}
@@ -93,7 +94,7 @@ function tSettings(){
   return accountCard()+'<div class="card"><h3>Course</h3><label>Name shown at the top</label>'+inp('title')+'</div>'+
    '<div class="card"><h3>Default quest limit</h3><p class="help">Used for lessons that don’t set their own “Max quests”. Leave empty for no limit.</p>'+inp('maxQuests','no limit','number')+'</div>'+
    '<div class="card"><h3>Points per quest</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div><label>Easy</label>'+inp('points.easy','','number')+'</div><div><label>Medium</label>'+inp('points.medium','','number')+'</div><div><label>Hard</label>'+inp('points.hard','','number')+'</div></div></div>'+
-   '<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>'+
+   (artifactApi?'<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>':'')+
    '<div class="card"><h3>This device</h3><p class="help">He has ⭐ '+P.points+' now (earned '+P.earned+' in total).</p><button class="sbtn" data-act="give" data-x="5">+5 ⭐ for effort</button> <button class="sbtn" data-act="give" data-x="10">+10 ⭐</button> <button class="sbtn" data-act="give" data-x="-5">−5 ⭐</button> <button class="sbtn" data-act="unlock">Unlock all quests in this lesson</button> <button class="sbtn" style="color:#ff9a9a" data-act="reset">Reset his progress</button></div>';
 }
 var TV=$('teacherView');
