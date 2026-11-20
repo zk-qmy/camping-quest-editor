@@ -1,10 +1,8 @@
-body { background-color: #10180f; color: wheat; font-family: Verdana, sans-serif; margin: 0; }
-header { background-color: darkgreen; padding: 10px 30px; }
-header img { vertical-align: middle; }
-header a { color: white; text-decoration: none; }
+body { background-color: lightgray; font-family: Verdana, sans-serif; margin: 0; }
+header { background-color: black; padding: 10px 20px; }
+header a { color: white; }
 main { max-width: 700px; margin: 0 auto; }
-h1 { text-align: center; color: orange; }
-.intro { border-left: 5px solid orange; padding-left: 15px; }
-table { border: 2px solid orange; }
-td { padding: 8px; }
-footer { background-color: darkgreen; padding: 10px; }
+h1 { text-align: center; }
+.intro { font-size: 20px; }
+.gallery img { margin: 10px; }
+#contacts { background-color: black; color: white; font-size: 12px; padding: 10px 20px; }

@@ -52,17 +52,28 @@ One folder per module. Each is a normal static website (`index.html`, `style.css
 |---|---|---|
 | `m3-night-camp` | 3 | 9–12 |
 | `m4-night-camp-style` | 4 | 13–16 |
-| `m5-night-camp-guide` | 5 | 17–20 |
-| `m6-night-camp-gear` | 6 | 21–24 |
-| `m7-night-camp-gear-2` | 7 | 25–28 |
+| `m5-night-camp-pages` | 5 | 17–20 |
+| `m6-night-camp-flexbox` | 6 | 21–24 |
+| `m7-night-camp-hover` | 7 | 25–28 |
 | `m8-night-camp-final` | 8 | 29–32 |
 
 ### The projects build on each other
 
 Night Camp is one site that grows from Module 3 to Module 8. Each project has `basedOn` set to the previous one, so a student's *Practice* starts from the finished previous project and only builds what is new. The app compares the new `finalCode`, `finalCss` and `pages` with the base's and generates the quests from the difference.
 
-- m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base).
-- Each project adds about 20 tasks (currently 20, 21, 21, 20, 17, 21). A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
+- m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base). The first project is a school landing page: black header with a logo and link, centred heading, pictures, a paragraph and a black footer.
+- Each project must show the concepts of its module:
+
+| Module | Concepts shown |
+|---|---|
+| 3 | HTML structure, headings, paragraphs, images, links to an `id`, `style="…"` |
+| 4 | `style.css`, tag, class, id and descendant selectors |
+| 5 | margin and padding, solid, dashed, dotted and double borders, `ul` with a picture bullet, a second page |
+| 6 | containers, `display: flex`, `justify-content`, `align-items` |
+| 7 | `:hover`, `::before`, `::after`, `position` fixed and absolute |
+| 8 | gradients, shadows, `transform`, `transition`, `<video>` |
+
+- Each project adds about 20 tasks (currently 17, 18, 21, 17, 19, 15). A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
 - A later project must be a superset of the earlier one: keep the earlier markup and CSS, and add to it. Pages (`pages` in `HALL_DEFAULT`) that did not change must be repeated unchanged.
 - The Hall card shows the count (for example "10 quests · 21 tasks"), computed by `hallCount()` in `15-hall.js`. Check it after changing a project.
 - To change a project, edit it in both places: the `HALL_DEFAULT` JSON in `15-hall.js` and its folder in `hall-projects/`. Then run `npm run build && npm run check`.

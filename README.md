@@ -47,9 +47,9 @@ Each project is a normal website. Open the `index.html` inside its folder:
 |---|---|
 | Night Camp | `hall-projects/m3-night-camp/index.html` |
 | Night Camp: style.css | `hall-projects/m4-night-camp-style/index.html` |
-| Night Camp: Ranger Guide | `hall-projects/m5-night-camp-guide/index.html` |
-| Night Camp: Gear Shop | `hall-projects/m6-night-camp-gear/index.html` |
-| Night Camp: Gear Shop 2.0 | `hall-projects/m7-night-camp-gear-2/index.html` |
+| Night Camp: Two pages | `hall-projects/m5-night-camp-pages/index.html` |
+| Night Camp: Flexbox | `hall-projects/m6-night-camp-flexbox/index.html` |
+| Night Camp: Hover and position | `hall-projects/m7-night-camp-hover/index.html` |
 | Night Camp: Final site | `hall-projects/m8-night-camp-final/index.html` |
 
 The pages link to each other (for example Home, Survival tips), so click through the menu. Pictures such as `campfire.png` are not included, so they show as broken images.
@@ -90,9 +90,9 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 ├── hall-projects/        # Hall demo projects, one folder per module
 │   ├── m3-night-camp/
 │   ├── m4-night-camp-style/
-│   ├── m5-night-camp-guide/
-│   ├── m6-night-camp-gear/
-│   ├── m7-night-camp-gear-2/
+│   ├── m5-night-camp-pages/
+│   ├── m6-night-camp-flexbox/
+│   ├── m7-night-camp-hover/
 │   └── m8-night-camp-final/
 ├── lessons/              # final code for individual lessons
 ├── docs/                 # architecture notes
@@ -105,12 +105,12 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 |---|---|---|---|
 | 1 · Module 3 | 9–12 | Night Camp | [`m3-night-camp`](hall-projects/m3-night-camp) |
 | 2 · Module 4 | 13–16 | Night Camp: style.css | [`m4-night-camp-style`](hall-projects/m4-night-camp-style) |
-| 3 · Module 5 | 17–20 | Night Camp: Ranger Guide (2 pages) | [`m5-night-camp-guide`](hall-projects/m5-night-camp-guide) |
-| 4 · Module 6 | 21–24 | Night Camp: Gear Shop | [`m6-night-camp-gear`](hall-projects/m6-night-camp-gear) |
-| 5 · Module 7 | 25–28 | Night Camp: Gear Shop 2.0 | [`m7-night-camp-gear-2`](hall-projects/m7-night-camp-gear-2) |
-| 6 · Module 8 | 29–32 | Night Camp: Final site (3 pages) | [`m8-night-camp-final`](hall-projects/m8-night-camp-final) |
+| 3 · Module 5 | 17–20 | Night Camp: Two pages | [`m5-night-camp-pages`](hall-projects/m5-night-camp-pages) |
+| 4 · Module 6 | 21–24 | Night Camp: Flexbox | [`m6-night-camp-flexbox`](hall-projects/m6-night-camp-flexbox) |
+| 5 · Module 7 | 25–28 | Night Camp: Hover and position | [`m7-night-camp-hover`](hall-projects/m7-night-camp-hover) |
+| 6 · Module 8 | 29–32 | Night Camp: Final site | [`m8-night-camp-final`](hall-projects/m8-night-camp-final) |
 
-Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks. The look is shared: a dark forest palette, a centred main area, orange headings and rounded cards. Each folder is a standalone site: open its `index.html`. Images the pages reference (e.g. `campfire.png`) are not included.
+Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks and shows the concepts of its module: inline styles (3), selectors and style.css (4), borders, lists and a second page (5), flexbox (6), :hover, ::before and positioning (7), gradients, shadows, transforms and video (8). The first project is a school landing page: black header and footer, a centred heading, pictures and a paragraph.
 
 ## Updating content
 

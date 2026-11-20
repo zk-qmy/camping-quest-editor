@@ -111,9 +111,9 @@ function split() {
 const HALL_DIRS = {
   m3: 'm3-night-camp',
   m4: 'm4-night-camp-style',
-  m5: 'm5-night-camp-guide',
-  m6: 'm6-night-camp-gear',
-  m7: 'm7-night-camp-gear-2',
+  m5: 'm5-night-camp-pages',
+  m6: 'm6-night-camp-flexbox',
+  m7: 'm7-night-camp-hover',
   m8: 'm8-night-camp-final',
 };
 

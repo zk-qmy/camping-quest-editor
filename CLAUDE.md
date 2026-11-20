@@ -33,7 +33,7 @@ Camping Quest Editor: a gamified HTML/CSS course app for one young student (cour
 
 - One site, "Night Camp", grows from Module 3 to Module 8. Each project's `basedOn` is the previous one (m3 has none), so each adds about **20 tasks** (the user's target).
 - A task is generated per new HTML element and per new CSS declaration. Keep additions small. A later project must be a superset of the earlier one, and unchanged `pages` are repeated.
-- Each Hall card shows "N quests · M tasks" (`hallCount()` in `15-hall.js`). Re-measure after any change. Counts at last measurement: m3 20, m4 21, m5 21, m6 20, m7 17, m8 21. Spend the CSS budget on high-impact declarations (content width, padding, card background and radius, header gradient).
+- Each Hall card shows "N quests · M tasks" (`hallCount()` in `15-hall.js`). Re-measure after any change. Counts at last measurement: m3 17, m4 18, m5 21, m6 17, m7 19, m8 15. Each project must show its module's concepts (see the table in docs/architecture.md): M3 inline styles, M4 selectors + style.css, M5 borders/lists/2nd page, M6 flexbox, M7 hover + pseudo-elements + positioning, M8 gradients/shadows/transforms/video. The first project mimics a school landing page (black header/footer, centred heading, pictures). Spend the CSS budget on high-impact declarations (content width, padding, card background and radius, header gradient).
 - When changing a project, update both `HALL_DEFAULT` and `hall-projects/<folder>/`, then run `npm run build && npm run check`.
 
 ## Background themes
