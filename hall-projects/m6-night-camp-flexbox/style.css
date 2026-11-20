@@ -3,12 +3,14 @@ header { display: flex; justify-content: space-between; align-items: center; bac
 header a { color: white; margin-left: 20px; }
 main { max-width: 700px; margin: 0 auto; }
 h1 { text-align: center; border-bottom: 3px double black; }
+h2 { color: darkgreen; }
 .intro { font-size: 20px; }
-.gallery img { margin: 10px; border: 3px solid darkgreen; }
+.gallery img { margin: 10px; }
 #contacts { background-color: black; color: white; font-size: 12px; padding: 10px 20px; }
 ul { list-style: url("star.png"); }
 .tip { border: 2px dashed sienna; padding: 10px; }
-ol { border: 2px dotted gray; }
+table { border: 2px solid darkgreen; }
+td { border: 1px dotted gray; }
 .gallery { display: flex; justify-content: space-around; }
 .classes { display: flex; justify-content: space-between; }
-.card { width: 45%; padding: 15px; background-color: white; }
+.card { width: 45%; padding: 15px; background-color: white; border-radius: 10px; }
