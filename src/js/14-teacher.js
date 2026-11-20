@@ -60,9 +60,9 @@ function tLessons(){
 }
 function tQuiz(){
   var c=quizCfg(),n=quizItems().length;
-  var h='<div class="card"><h3>🧠 Pop-up quiz</h3><p class="help">A 🧠 button pops up on his screen at a random time between the two numbers below. When he clicks it he gets one multiple-choice question. A right answer gives him random bonus points. Questions come in a random order.</p>'+
+  var h='<div class="card"><h3>🧠 Pop-up quiz</h3><p class="help">A 🧠 button pops up on his screen at a random time between the two numbers below. When he clicks it he gets one multiple-choice question. If he does not answer in time, the quiz expires and he gets no points. A right answer gives him random bonus points. Questions come in a random order.</p>'+
    '<label class="chk" style="margin-bottom:10px"><input type="checkbox" data-qon'+(c.on?' checked':'')+'> The pop-up quiz is on</label>'+
-   '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px"><div><label>Fastest (minutes)</label>'+inp('quiz.min','15','number')+'</div><div><label>Slowest (minutes)</label>'+inp('quiz.max','30','number')+'</div><div><label>Fewest bonus ⭐</label>'+inp('quiz.pmin','5','number')+'</div><div><label>Most bonus ⭐</label>'+inp('quiz.pmax','15','number')+'</div></div>'+
+   '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px"><div><label>Fastest (minutes)</label>'+inp('quiz.min','15','number')+'</div><div><label>Slowest (minutes)</label>'+inp('quiz.max','30','number')+'</div><div><label>Expires after (minutes)</label>'+inp('quiz.expire','10','number')+'</div><div><label>Fewest bonus ⭐</label>'+inp('quiz.pmin','5','number')+'</div><div><label>Most bonus ⭐</label>'+inp('quiz.pmax','15','number')+'</div></div>'+
    '<p class="help" style="margin-top:8px">'+n+' question'+(n===1?'':'s')+' ready. A question needs text, at least 2 answers and one marked right.</p>'+
    '<button class="sbtn" data-act="qTest">🧪 Try a quiz now (no points)</button></div>';
   c.items.forEach(function(it,i){var b='quiz.items.'+i,bad=!quizValid(it);
