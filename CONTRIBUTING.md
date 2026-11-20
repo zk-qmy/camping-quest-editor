@@ -25,3 +25,4 @@ See the [README](README.md#repository-layout) and [docs/architecture.md](docs/ar
 - Run `npm run setup` once after cloning. It enables a pre-commit hook that blocks commits containing a PIN or secret-like value.
 - The app stores the PIN as a salted hash in `index.html` when you use **Save to page**. Never commit a page with a PIN set. `npm run check` (and CI) fail if `"pin"` is not empty.
 - Don't put personal paths or emails in code or docs.
+- Never commit a GitHub access token. A teacher's login token lives only in her browser (Teacher → ⚙️ Settings → 🔑 Teacher account); `npm run check` blocks token-like strings.

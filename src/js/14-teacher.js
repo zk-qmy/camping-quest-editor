@@ -90,7 +90,7 @@ function tPrizes(){
   return h+'</div>';
 }
 function tSettings(){
-  return '<div class="card"><h3>Course</h3><label>Name shown at the top</label>'+inp('title')+'</div>'+
+  return accountCard()+'<div class="card"><h3>Course</h3><label>Name shown at the top</label>'+inp('title')+'</div>'+
    '<div class="card"><h3>Default quest limit</h3><p class="help">Used for lessons that don’t set their own “Max quests”. Leave empty for no limit.</p>'+inp('maxQuests','no limit','number')+'</div>'+
    '<div class="card"><h3>Points per quest</h3><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div><label>Easy</label>'+inp('points.easy','','number')+'</div><div><label>Medium</label>'+inp('points.medium','','number')+'</div><div><label>Hard</label>'+inp('points.hard','','number')+'</div></div></div>'+
    '<div class="card"><h3>Teacher PIN</h3><p class="help">Keeps him out of this panel. Saved only as a scrambled hash, never the PIN itself.</p>'+'<input type="password" id="pinSet" autocomplete="new-password" placeholder="'+(DATA.pin?'PIN is set. Type a new one to change it':'no PIN')+'">'+(DATA.pin?' <button class="sbtn" id="pinClear">Remove PIN</button>':'')+'</div>'+
@@ -156,6 +156,7 @@ TV.addEventListener('click',function(e){
    case 'qDel':l.quests.splice(j,1);break;
    case 'tDel':l.quests[j].tasks.splice(k,1);if(!l.quests[j].tasks.length)l.quests.splice(j,1);break;
    case 'tAdd':l.quests[j].tasks.push({t:'New task',h:'',check:{type:'manual'}});break;
+   case 'acct':openAccount();return;
    case 'qAdd':quizCfg().items.push({id:uid('z'),q:'',opts:['','','',''],ans:0,why:''});break;
    case 'qDel':quizCfg().items.splice(+b.dataset.i,1);break;
    case 'qTest':openQuiz(true);return;
@@ -186,7 +187,7 @@ function buildHTML(){
   return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>'+esc(DATA.title||'Code Quest')+'</title>\n'+(f?f.outerHTML:'')+'\n<style id="appcss">'+$('appcss').textContent+'</style>\n</head>\n<body>\n<template id="shell">'+$('shell').innerHTML+'</template>\n<script type="application/json" id="data">'+json+'<\/script>\n<script id="app">'+$('app').textContent+'<\/script>\n</body>\n</html>';
 }
 function saveToPage(){
-  if(!artifactApi){cantSave('unavailable');return;}
+  if(!artifactApi){ghSave();return;}
   toast('Saving…');DATA.t=Date.now();try{localStorage.setItem(LKEY,JSON.stringify(DATA));}catch(e){}
   artifactApi.publish(buildHTML()).then(function(){dirty=false;setSt();toast('✓ Saved! He will see this next time he opens the page.');})
   .catch(function(err){var c=err&&err.code;if(c==='not_writer'||c==='not_granted'){cantSave('owner');return;}

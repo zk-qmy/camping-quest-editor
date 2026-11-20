@@ -57,7 +57,7 @@ var GUIDE_TEACHER=
  '<tr><td>📦 Prizes to give</td><td>Real prizes he bought or won</td></tr>'+
  '<tr><td>⚙️ Settings</td><td>Course name, quest limit, points, PIN, this device’s progress</td></tr>'+
  '<tr><td>❓ Teacher guide</td><td>This guide (the student cannot see it)</td></tr>'+
- '<tr><td>💾 Save to page</td><td>Puts your lessons and items on the page for the student (owner account only)</td></tr>'+
+ '<tr><td>💾 Save to page</td><td>Puts your lessons, items and quiz questions on the page for the student. Needs a <b>teacher account</b>: log in under ⚙️ Settings → 🔑 Teacher account</td></tr>'+
  '<tr><td>Export · Import</td><td>Export copies everything as text. Import pastes a lesson code or export: <b>➕ Add these lessons</b> keeps yours and adds the new ones; <b>Replace everything</b> restores a full backup</td></tr>'+
  '<tr><td>📤 Copy (on a lesson)</td><td>A code for just that lesson, to share with another teacher or account</td></tr>'+
  '<tr><td>▶ Student view</td><td>Back to the editor</td></tr></table>'+
@@ -96,7 +96,8 @@ var GUIDE_TEACHER=
  '<tr><td>💾 Backup</td><td>Copy a code with all his progress; load it on any computer (he is reminded after each lesson)</td></tr></table>'+
  '<h3>📨 Reports</h3><p>When he presses <b>🙋 Ask teacher</b>, the <b>Teacher</b> button shows a red number. In <b>📨 Reports</b>, click <b>👀 See his code</b> to see his code and website, and what the page was checking. <b>✓ Accept</b> counts the task as done; <b>✗ Try again</b> sends him your message. If the check itself is wrong, fix that task in <b>📚 Lessons</b> too.</p>'+
  '<h3>Working with another teacher (or another account)</h3>'+
-'<p>Only the account that <b>owns</b> Code Quest can <b>💾 Save to page</b>. Another account can open this Teacher view (with the PIN) and make lessons, but its save is refused, so the student won’t see them until the owner adds them.</p>'+
+'<p><b>Teacher account.</b> Only a teacher account can <b>💾 Save to page</b>. On the web page (GitHub) a teacher account is a <b>GitHub account that can edit this project</b>. Log in once under <b>⚙️ Settings → 🔑 Teacher account</b>: type the project as <code>owner/name</code> and paste an access token. The owner first adds the teacher as a <b>collaborator</b> on GitHub, and the token needs <b>Contents: Read and write</b> for this project only. After logging in, Save to page saves to GitHub and the live page updates in a minute or two. The token stays in this browser only, and the PIN is never saved to GitHub.</p>'+
+'<p>Without a teacher account you can still make lessons, but the save is refused and the student won’t see them until a teacher account saves (use <b>📤</b> codes to send lessons to her). If two teachers save, the second one is asked to reload first, so nobody’s work is lost.</p>'+
 '<table><tr><th>Step</th><th>Who</th><th>What to do</th></tr>'+
 '<tr><td>1</td><td>Other teacher</td><td>In <b>📚 Lessons</b>, make the lesson: name, Builds on, final code, <b>🔨 Break into quests</b>.</td></tr>'+
 '<tr><td>2</td><td>Other teacher</td><td>Click <b>📤 Copy</b> on the lesson (or, if you clicked Save, use the code in the “can’t save” window), then <b>📋 Copy code</b>.</td></tr>'+
@@ -112,7 +113,7 @@ var GUIDE_TEACHER=
  '<tr><td>Price</td><td>Points needed in 🎒 Collection</td></tr></table>'+
  '<h3>Saving and sharing</h3><table><tr><th>Topic</th><th>Detail</th></tr>'+
  '<tr><td>Another teacher or account</td><td>Can make lessons but cannot save. See <b>Working with another teacher</b> above.</td></tr>'+
- '<tr><td>Save to page</td><td>New or changed lessons reach the student <b>only after 💾 Save to page</b>. Until then they stay on your computer (the top of this view says “Not saved to the page yet”), and closing this view reminds you. Only the page owner can save. The student may need to reload the page.</td></tr>'+
+ '<tr><td>Save to page</td><td>New or changed lessons reach the student <b>only after 💾 Save to page</b>. Until then they stay on your computer (the top of this view says “Not saved to the page yet”), and closing this view reminds you. Only a teacher account can save. The student may need to reload the page.</td></tr>'+
  '<tr><td>Student progress</td><td>Saved automatically in the student’s browser (same computer + same browser to continue). Lost in private/incognito windows or if browser data is cleared. Reports and “Prizes to give” are on his computer too.</td></tr>'+
  '<tr><td>💾 Backup code</td><td>The student’s <b>💾 Backup</b> button makes a text code with all his progress (quests, points, items, code, blocks, reports). Keep a copy after each lesson; <b>Load my progress</b> restores it on any computer. It also lets you check his prizes and reports on your own computer.</td></tr>'+
  '<tr><td>Teacher PIN</td><td>Keeps the student out of this view. It is saved as a salted hash, not plain text, and 5 wrong tries lock it for 30 seconds. It still only stops a child, not a determined person with the page file.</td></tr>'+

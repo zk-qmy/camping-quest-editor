@@ -40,6 +40,10 @@ Camping Quest Editor: a gamified HTML/CSS course app for one young student (cour
 
 `src/js/15a-background-themes.js` plus the `#forestBg[data-theme=...]` rules at the end of `src/styles/01-99-nights-theme.css`. Five themes (night, dawn, sunset, winter, plain). The choice is stored in `P.theme`. To add one: add to `THEMES` and add a CSS rule.
 
+## Teacher accounts / saving
+
+`src/js/14a-teacher-account.js`: a teacher = a GitHub account with push access, logged in with a fine-grained token kept only in `localStorage` (`cq-teacher-account`). Save to page makes one commit (course.json + index.html with swapped data) through the GitHub API. Never put a token in code, data, docs or tests (tests use a mocked `fetch`). Details in docs/architecture.md.
+
 ## Pop-up quiz
 
 Student code: `src/js/15b-popup-quiz.js`. Teacher tab: `tQuiz()` in `14-teacher.js`. Questions live in `DATA.quiz` (course.json); timing and answers are in `P.quiz*`. To test it headless, set `quizNext` to a past time in `localStorage` key `cq-progress` before the app script runs, then click `#quizBtn` and the `.qopt` answers. Details in docs/architecture.md.

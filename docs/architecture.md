@@ -20,6 +20,7 @@ src/
     ├── 12-guide.js
     ├── 13-reports-...js
     ├── 14-teacher.js           # Teacher view, PIN (salted PBKDF2 hash, lockout)
+    ├── 14a-teacher-account.js  # teacher account: log in with GitHub, save to GitHub
     ├── 15-hall.js              # Hall: HALL_DEFAULT, project cards with quest/task counts
     ├── 15a-background-themes.js # 🎨 Theme picker (stored as P.theme)
     ├── 15b-popup-quiz.js       # 🧠 pop-up quiz (student side)
@@ -86,6 +87,17 @@ Night Camp is one site that grows from Module 3 to Module 8. Each project has `b
 ## Background themes
 
 The sky behind the app is `#forestBg` (created in `01-forest-background.js`). `15a-background-themes.js` adds the 🎨 Theme button and five themes (night, dawn, sunset, winter, plain). The chosen id is stored in `P.theme` (so it is part of the progress backup) and applied as `data-theme` on `#forestBg`. Each theme is a block of CSS at the end of `src/styles/01-99-nights-theme.css`. To add a theme: add an entry to `THEMES` in the JS and a `#forestBg[data-theme=...]` rule in the CSS.
+
+## Teacher accounts and saving
+
+The app is static, so saving needs somewhere to write. `14a-teacher-account.js` uses **GitHub accounts**:
+
+- **Who is a teacher:** a GitHub user who can push to the repo (the owner or a collaborator). She logs in under Teacher → ⚙️ Settings → 🔑 Teacher account with `owner/name` and a fine-grained personal access token (Contents: Read and write, this repo only). Login calls `GET /user` and `GET /repos/{repo}` and requires `permissions.push`.
+- **Where the login lives:** only in `localStorage` key `cq-teacher-account` (user, repo, branch, token). It is never part of `DATA`, `P`, the Backup, Export or the page.
+- **What 💾 Save to page does** (`ghSave()`): checks the remote `src/data/course.json` `rev` (if it is newer than what this page started from, it stops with "Someone else saved first"), then makes **one commit** through the Git Data API containing `src/data/course.json` and `index.html`. `index.html` is the current page with only the embedded data swapped (`swapData()`), so it is exactly what `npm run build` would produce and CI's sync check still passes. The PIN is blanked in the saved copy. GitHub Pages then redeploys.
+- **Claude artifact hosting:** if `window.claude` is available the old path (`artifactApi.publish`) is used instead, and only the artifact owner can save.
+- **Safety:** the token must never be committed. `npm run check` blocks `ghp_…` and `github_pat_…`.
+- **Limit:** anyone can open the public page and the Teacher view (the PIN is per browser), but only a GitHub account with write access can save.
 
 ## Pop-up quiz
 

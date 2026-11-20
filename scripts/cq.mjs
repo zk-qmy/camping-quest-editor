@@ -167,7 +167,7 @@ function checkSecrets() {
   const html = read(OUT);
   const d = extract(html, REGIONS.DATA).text;
   pinIn(d, 'index.html (embedded data)');
-  const patterns = [/ghp_[A-Za-z0-9]{20,}/, /sk-[A-Za-z0-9]{20,}/, /AKIA[0-9A-Z]{12,}/, /BEGIN [A-Z ]*PRIVATE KEY/, /file:\/\/\/[a-z]:\//i];
+  const patterns = [/ghp_[A-Za-z0-9]{20,}/, /github_pat_[A-Za-z0-9_]{20,}/, /sk-[A-Za-z0-9]{20,}/, /AKIA[0-9A-Z]{12,}/, /BEGIN [A-Z ]*PRIVATE KEY/, /file:\/\/\/[a-z]:\//i];
   for (const f of ['index.html', 'README.md', 'CONTRIBUTING.md', 'docs/architecture.md']) {
     const t = read(join(ROOT, f));
     for (const re of patterns) if (re.test(t)) problems.push(`${f} matches ${re}`);
