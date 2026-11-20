@@ -58,23 +58,27 @@ One folder per module. Each is a normal static website (`index.html`, `style.css
 | `m7-night-camp-hover` | 7 | 25–28 |
 | `m8-night-camp-final` | 8 | 29–32 |
 
+### How the page is organised
+
+Every section has a heading, its picture (if it has one) and its text together, in an order a visitor can follow: header menu → title, mascot and intro → **What we teach** (three pictures with captions in a table) → **About us** → **What to bring** (list, Module 5) → **Our classes** (three cards, Module 6) → **Prices** (table, Module 5) → **Watch a class** (video, Module 8) → contacts footer. A new section goes in the place where a visitor would expect it, and each picture needs a caption or a heading that says what it is.
+
 ### The projects build on each other
 
 Night Camp is one site that grows from Module 3 to Module 8. Each project has `basedOn` set to the previous one, so a student's *Practice* starts from the finished previous project and only builds what is new. The app compares the new `finalCode`, `finalCss` and `pages` with the base's and generates the quests from the difference.
 
-- m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base). The first project is a school landing page: black header with a logo and link, centred heading, pictures, a paragraph and a black footer.
+- m3 → m4 → m5 → m6 → m7 → m8 (m3 has no base). The first project is a school landing page. Look: pale mint (`honeydew`) page, `darkgreen` header and footer, white cards, orange accents. No grey backgrounds.
 - Each project must show the concepts of its module:
 
 | Module | Concepts shown |
 |---|---|
-| 3 | HTML structure, headings, paragraphs, images, menu links to an `id`, an About section, `style="…"` |
+| 3 | HTML structure, headings, paragraphs, images, a table of pictures with captions, menu links to an `id`, `style="…"` |
 | 4 | `style.css`, tag, class, id and descendant selectors |
 | 5 | margin and padding, solid, dashed, dotted and double borders, `ul` with a picture bullet, a table, a `nav` menu, a second page |
 | 6 | containers, `display: flex`, `justify-content`, `align-items` |
 | 7 | `:hover`, `::before`, `::after`, `position` fixed and absolute |
 | 8 | gradients, shadows, `transform`, `transition`, `<video>` |
 
-- Each project adds about 20 tasks (currently 20, 20, 24, 22, 19, 16). More text, list items and table rows cost no extra tasks, so put extra content there. A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
+- Each project adds about 20 tasks (currently 23, 23, 26, 20, 19, 16). More text, list items and table rows cost no extra tasks, so put extra content there. A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
 - A later project must be a superset of the earlier one: keep the earlier markup and CSS, and add to it. Pages (`pages` in `HALL_DEFAULT`) that did not change must be repeated unchanged.
 - The Hall card shows the count (for example "10 quests · 21 tasks"), computed by `hallCount()` in `15-hall.js`. Check it after changing a project.
 - To change a project, edit it in both places: the `HALL_DEFAULT` JSON in `15-hall.js` and its folder in `hall-projects/`. Then run `npm run build && npm run check`.

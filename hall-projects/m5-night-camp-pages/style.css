@@ -1,13 +1,13 @@
-body { background-color: lightgray; font-family: Verdana, sans-serif; margin: 0; }
-header { background-color: black; padding: 10px 20px; }
+body { background-color: honeydew; font-family: Verdana, sans-serif; margin: 0; }
+header { background-color: darkgreen; padding: 10px 20px; }
 header a { color: white; margin-left: 20px; }
 main { max-width: 700px; margin: 0 auto; }
-h1 { text-align: center; border-bottom: 3px double black; }
+h1 { text-align: center; color: darkgreen; border-bottom: 3px double darkgreen; }
 h2 { color: darkgreen; }
 .intro { font-size: 20px; }
-.gallery img { margin: 10px; }
-#contacts { background-color: black; color: white; font-size: 12px; padding: 10px 20px; }
+.teach { width: 100%; text-align: center; }
+#contacts { background-color: darkgreen; color: white; padding: 10px 20px; }
 ul { list-style: url("star.png"); }
+.prices { border: 2px solid darkgreen; }
+.prices td { border: 1px dotted gray; padding: 8px; }
 .tip { border: 2px dashed sienna; padding: 10px; }
-table { border: 2px solid darkgreen; }
-td { border: 1px dotted gray; }

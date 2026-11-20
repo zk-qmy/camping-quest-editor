@@ -111,7 +111,7 @@ There is no `npm install` step; the project has no dependencies. The Hall projec
 | 5 · Module 7 | 25–28 | Night Camp: Hover and position | [`m7-night-camp-hover`](hall-projects/m7-night-camp-hover) |
 | 6 · Module 8 | 29–32 | Night Camp: Final site | [`m8-night-camp-final`](hall-projects/m8-night-camp-final) |
 
-Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks and shows the concepts of its module: inline styles (3), selectors and style.css (4), borders, lists and a second page (5), flexbox (6), :hover, ::before and positioning (7), gradients, shadows, transforms and video (8). The first project is a school landing page: black header and footer, a centred heading, pictures and a paragraph.
+Each project builds on the one before it (Night Camp grows from Module 3 to Module 8), so every project adds only about 20 new tasks and shows the concepts of its module: inline styles (3), selectors and style.css (4), borders, lists and a second page (5), flexbox (6), :hover, ::before and positioning (7), gradients, shadows, transforms and video (8). The first project is a school landing page with a mint and green look. Every section has a heading, its picture and its text together, so the page is easy to follow.
 
 ## Updating content
 

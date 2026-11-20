@@ -1,30 +1,29 @@
-body { background-color: lightgray; font-family: Verdana, sans-serif; margin: 0; }
-header { background-image: linear-gradient(black, darkgreen); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
+body { background-color: honeydew; font-family: Verdana, sans-serif; margin: 0; }
+header { background-image: linear-gradient(darkgreen, seagreen); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; }
 header a { color: white; margin-left: 20px; }
 main { max-width: 700px; margin: 0 auto; }
-h1 { text-align: center; border-bottom: 3px double black; }
+h1 { text-align: center; color: darkgreen; border-bottom: 3px double darkgreen; }
 h2 { color: darkgreen; }
 .intro { font-size: 20px; }
-.gallery img { margin: 10px; }
-#contacts { background-image: linear-gradient(darkgreen, black); color: white; font-size: 12px; padding: 10px 20px; }
+.teach { width: 100%; text-align: center; }
+#contacts { background-image: linear-gradient(seagreen, darkgreen); color: white; padding: 10px 20px; }
 ul { list-style: url("star.png"); }
+.prices { border: 2px solid darkgreen; }
+.prices td { border: 1px dotted gray; padding: 8px; }
 .tip { border: 2px dashed sienna; padding: 10px; }
-table { border: 2px solid darkgreen; }
-td { border: 1px dotted gray; }
-.gallery { display: flex; justify-content: space-around; }
 .classes { display: flex; justify-content: space-between; }
 .card { position: relative; width: 28%; padding: 15px; background-color: white; border-radius: 10px; }
 header a:hover { color: orange; }
 h1::before { content: "🔥 "; }
-.card:hover { background-color: wheat; }
+.card:hover { background-color: lightyellow; }
 .card h3::after { content: " !"; }
-.social { position: fixed; bottom: 20px; right: 0; background-color: black; padding: 10px; }
+.social { position: fixed; bottom: 20px; right: 0; background-color: darkgreen; padding: 10px; }
 .social a { display: block; color: white; }
 .badge { position: absolute; top: -10px; right: -10px; }
 .photo { border-radius: 50%; box-shadow: 0 0 20px darkgreen; }
 .card { box-shadow: 3px 3px 8px gray; transition: 0.5s; }
 .card:hover { transform: scale(1.05); }
-.gallery img:hover { transform: rotate(5deg); }
-video { border: 3px solid black; }
+.teach img:hover { transform: rotate(5deg); }
+video { border: 3px solid darkgreen; }
 h1 { text-shadow: 2px 2px 4px gray; }
-.gallery img { border-radius: 10px; transition: 0.5s; }
+.teach img { border-radius: 10px; transition: 0.5s; }
