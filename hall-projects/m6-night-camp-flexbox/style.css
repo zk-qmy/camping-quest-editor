@@ -13,4 +13,4 @@ table { border: 2px solid darkgreen; }
 td { border: 1px dotted gray; }
 .gallery { display: flex; justify-content: space-around; }
 .classes { display: flex; justify-content: space-between; }
-.card { width: 45%; padding: 15px; background-color: white; border-radius: 10px; }
+.card { width: 28%; padding: 15px; background-color: white; border-radius: 10px; }

@@ -73,7 +73,7 @@ Night Camp is one site that grows from Module 3 to Module 8. Each project has `b
 | 7 | `:hover`, `::before`, `::after`, `position` fixed and absolute |
 | 8 | gradients, shadows, `transform`, `transition`, `<video>` |
 
-- Each project adds about 20 tasks (currently 20, 20, 24, 18, 19, 15). A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
+- Each project adds about 20 tasks (currently 20, 20, 24, 22, 19, 16). More text, list items and table rows cost no extra tasks, so put extra content there. A task is generated per new HTML element and per new CSS declaration, so keep new pages and rules small.
 - A later project must be a superset of the earlier one: keep the earlier markup and CSS, and add to it. Pages (`pages` in `HALL_DEFAULT`) that did not change must be repeated unchanged.
 - The Hall card shows the count (for example "10 quests · 21 tasks"), computed by `hallCount()` in `15-hall.js`. Check it after changing a project.
 - To change a project, edit it in both places: the `HALL_DEFAULT` JSON in `15-hall.js` and its folder in `hall-projects/`. Then run `npm run build && npm run check`.
